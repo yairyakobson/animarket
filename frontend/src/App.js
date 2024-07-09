@@ -159,7 +159,7 @@ function App(){
 
           <Route path="*" element={<NotFound/>}/>
         </Routes>
-        <Toaster richColors closeButton position="top-right"/>
+        <Toaster richColors position="top-right"/>
       <Footer/>
     </>
   );
