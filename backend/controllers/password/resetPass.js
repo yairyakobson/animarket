@@ -14,16 +14,17 @@ export const resetPassword = asyncErrors(async(req, res, next) =>{
 
   if(!user){
     return next(new ErrorHandler("Invalid or expired reset token", 404));
-  }
+  };
 
   if(req.body.password !== req.body.confirmPassword){
     return next(new ErrorHandler("Passwords do not match", 400));
-  }
+  };
 
   // Set a new password
   user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
+  
   await user.save();
   sendToken(user, 200, res);
 });

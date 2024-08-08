@@ -1,6 +1,8 @@
 import express from "express";
 const router = express.Router();
 
+import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
+
 import { regUser } from "../controllers/users/regUser.js";
 import { logUser } from "../controllers/users/logUser.js";
 import { logoutUser } from "../controllers/users/logoutUser.js";
@@ -14,8 +16,6 @@ import { getAllUsers, getOneUser } from "../controllers/users/admin/adminReadUse
 import { forgotPassword } from "../controllers/password/forgotPass.js";
 import { resetPassword } from "../controllers/password/resetPass.js";
 import { updatePassword } from "../controllers/password/updatePass.js";
-
-import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
 
 router.route("/register").post(regUser);
 router.route("/login").post(logUser);

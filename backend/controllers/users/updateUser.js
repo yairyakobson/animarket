@@ -6,7 +6,7 @@ import User from "../../models/User.js";
 export const updateUser = asyncErrors(async(req, res, next) =>{
   const newUser ={
     name: req.body.name,
-    email: req.body.email,
+    email: req.body.email
   }
  
   if(req.body.picture !== ""){
@@ -19,7 +19,7 @@ export const updateUser = asyncErrors(async(req, res, next) =>{
 
     if(req?.user?.picture?.url){
       await delete_file(req?.user?.picture?.public_id);
-    }
+    };
   }
 
   const user = await User.findByIdAndUpdate(req.user._id, newUser, { new: true });

@@ -14,21 +14,24 @@ export const updateOrder = asyncErrors(async(req, res, next) =>{
     return next(new ErrorHandler("You have already delivered this order", 400));
   }
 
-  let productNotFound = false;
-
   // Update products stock
-  for(const item of order.orderItems){
-    const product = await Product.findById(item?.product?.toString());
-    if(!product){
-      productNotFound = true;
-      break;
-    }
-    product.stock = product.stock - item.quantity;
-    await product.save({ validateBeforeSave: false });
-  }
+  if(order.orderStatus === "Processing" && req.body.status === "Shipped"){
+    let productNotFound = false;
 
-  if(productNotFound){
-    return next(new ErrorHandler("No Product found with one or more IDs.", 404));
+    for(const item of order.orderItems){
+      const product = await Product.findById(item.product.toString());
+
+      if(!product){
+        productNotFound = true;
+        break;
+      }
+      product.stock = product.stock - item.quantity;
+      await product.save({ validateBeforeSave: false });
+    }
+
+    if(productNotFound){
+      return next(new ErrorHandler("No Product found with one or more IDs.", 404));
+    }
   }
   order.orderStatus = req.body.status;
   order.delivaryDate = Date.now();

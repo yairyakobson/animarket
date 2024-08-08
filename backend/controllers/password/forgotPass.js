@@ -1,4 +1,4 @@
-import { resetPasswordTemplate } from "../../utils/emailTemplate.js";
+import { resetPasswordMail } from "../../utils/emailTemplates/resetPassword.js";
 
 import asyncErrors from "../../middlewares/asyncErrors.js";
 import User from "../../models/User.js";
@@ -11,13 +11,13 @@ export const forgotPassword = asyncErrors(async(req, res, next) =>{
 
   if(!user){
     return next(new ErrorHandler("User not found with this email", 404));
-  }
+  };
 
   // Reset Token Functionality
   const resetToken = user.getResetPasswordToken();
   await user.save();
   const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
-  const message = resetPasswordTemplate(user?.name, resetUrl);
+  const message = resetPasswordMail(user?.name, resetUrl);
   
   try{
     await sendEmail({
@@ -36,6 +36,6 @@ export const forgotPassword = asyncErrors(async(req, res, next) =>{
     
     await user.save();
     return next(new ErrorHandler(error?.message, 500));
-  }
+  };
   sendToken(user, 200, res);
 });

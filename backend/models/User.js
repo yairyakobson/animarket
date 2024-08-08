@@ -52,13 +52,18 @@ UserSchema.methods.toJSON = function(){
 
 UserSchema.methods.getJwtToken = function(){
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_TIME
+    expiresIn: process.env.JWT_EXPIRATION_TIME
   });
 }
 
 UserSchema.methods.getResetPasswordToken = function(){
   const resetToken = crypto.randomBytes(20).toString("hex");
-  this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex"); // Token Encryption
+  
+  this.resetPasswordToken = crypto
+  .createHash("sha256")
+  .update(resetToken)
+  .digest("hex"); // Token Encryption
+
   this.resetPasswordExpire = Date.now() + 30 * 60 * 1000 // Token expiration time
   return resetToken;
 }

@@ -7,23 +7,25 @@ export default (err, req, res, next) =>{
   }
   if(err.name === "CastError"){
     const message = `Resource Not Found. Invalid: ${err?.path}`
-    error = new ErrorHandler(message, 404)
+    error = new ErrorHandler(message, 404);
   }
   if(err.name === "ValidationError"){
-    const message = Object.values(err.errors).map((value) => value.message);
+    const messages = Object.values(err.errors).map((value) => value.message);
+    const uniqueMessages = [...new Set(messages)]; // Remove duplicates
+    const message = uniqueMessages.join(", ");
     error = new ErrorHandler(message, 400)
   }
   if(err.code === 11000){// Handle duplicate keys in the database
     const message = `User and/or Email Address already exists`;
-    error = new ErrorHandler(message, 404)
+    error = new ErrorHandler(message, 404);
   }
   if(err.name === "JsonWebTokenError"){
     const message = 'JSON Web Token is invalid. Try Again!!!'
-    error = new ErrorHandler(message, 400)
+    error = new ErrorHandler(message, 400);
   }
   if(err.name === "TokenExpiredError"){
     const message = 'JSON Web Token has expired. Try Again!!!'
-    error = new ErrorHandler(message, 400)
+    error = new ErrorHandler(message, 400);
   }
   if(process.env.NODE_ENV === "DEVELOPMENT"){
     res.status(error.statusCode).json({

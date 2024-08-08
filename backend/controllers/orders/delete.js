@@ -10,7 +10,5 @@ export const deleteOrder = asyncErrors(async(req, res, next) =>{
   }
   await order.deleteOne();
   
-  res.status(200).json({
-      message: "Order deleted"
-  });
+  res.status(200).json({ message: "Order deleted" });
 });

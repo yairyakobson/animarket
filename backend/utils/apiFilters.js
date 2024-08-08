@@ -11,12 +11,12 @@ class APIFilters{
       }
     } : {};
 
-    this.query = this.query.find({ ...keyword })
-    return this
+    this.query = this.query.find({ ...keyword });
+    return this;
   }
   filter(){
-    const queryCopy = { ...this.queryStr }
-    const removeFields = ["keyword", "limit", "page"]
+    const queryCopy = { ...this.queryStr };
+    const removeFields = ["keyword", "limit", "page"];
     removeFields.forEach((e) => delete queryCopy[e]);
 
     // Filtering for price, rating, etc...
