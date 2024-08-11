@@ -90,20 +90,20 @@ const Reviews = () =>{
     <>
       <MetaData title={"All Reviews"}/>
       <AdminSidebar>
-        <Container>
-          <Row className="justify-content-center my-3">
-            <Col lg={6} className="col-12">
+        <Container as="section">
+          <Row as="section" className="justify-content-center my-3">
+            <Col as="section" lg={6} className="col-12">
               <Form onSubmit={reviewHandler}>
                 <InputGroup>
                   <Form.Control type="text"
                   placeholder="Search"
                   value={productId}
                   onChange={(e) => setProductId(e.target.value)}/>
-                  <div>
+                  <section>
                     <Button type="submit" className="border-danger btn-danger">
                       <FaSearch aria-hidden="true" className="icon"/>
                     </Button>
-                  </div>
+                  </section>
                 </InputGroup>
               </Form>
             </Col>

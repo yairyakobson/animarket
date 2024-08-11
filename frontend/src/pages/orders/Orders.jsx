@@ -92,7 +92,7 @@ const ProfileOrders = () =>{
   return(
     <>
       <MetaData title={"Your Orders"}/>
-      <Container className={`${theme ? "" : "dark"}`}>
+      <Container as="section" className={`${theme ? "" : "dark"}`}>
         <h1 className="mt-4">{data?.orders?.length} Orders</h1>
         <MDBDataTableV5 data={setOrders()}
         className="mt-lg-5"

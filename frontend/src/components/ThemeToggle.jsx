@@ -8,15 +8,19 @@ export const ThemeToggle =() =>{
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const themeHandler = () =>{
+    dispatch(toggleTheme());
+  };
+
   return(
-    <div>
+    <section>
       {theme ? 
       <FaSun color={!user ? "white" : ""} size="1.5rem"
-      style={{ cursor: "pointer" }} className="justify-content-center"
-      onClick={() =>{dispatch(toggleTheme())}}/> :
+      style={{ cursor: "pointer" }} className="justify-content-center sun"
+      onClick={themeHandler}/> :
       <FaMoon color="white" size="1.5rem"
-      style={{ cursor: "pointer" }} className="justify-content-center"
-      onClick={() =>{dispatch(toggleTheme())}}/>}
-    </div>
+      style={{ cursor: "pointer" }} className="justify-content-center moon"
+      onClick={themeHandler}/>}
+    </section>
   )
 }

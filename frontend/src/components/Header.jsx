@@ -22,13 +22,14 @@ const Header = () =>{
   }
 
   return(
-    <Navbar bg="dark" variant="dark" expand={user ? false : "lg"}>
-      <Container>
+    <Navbar bg="dark" variant="dark" expand={user ? false : "lg"}
+    className={isLoading ? "header-loading" : ""}>
+      <Container as="section">
         <Navbar.Brand href="/">
           <img src={logo} alt="Home"/>
         </Navbar.Brand>
 
-        <Col md={5} lg={user ? 7 : 6}>
+        <Col as="section" md={4} lg={user ? 7 : 6}>
           <Search/>
         </Col>
 
@@ -59,7 +60,7 @@ const Header = () =>{
           <Navbar.Offcanvas placement="end" data-bs-theme={theme ? "light" : "dark"}>
             <Offcanvas.Header closeButton>
               <img src={user?.picture?.url} alt={user?.name} style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "50%" }}/>
-              <Navbar.Text><b>{user?.name}</b></Navbar.Text>
+              <Navbar.Text className="mx-3"><b>{user?.name}</b></Navbar.Text>
               <ThemeToggle isChecked={theme ? false : true}/>
             </Offcanvas.Header>
             <Offcanvas.Body>

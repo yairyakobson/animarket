@@ -4,31 +4,31 @@ import "../../styles/OrderStyle.css"
 
 const Checkout = ({ shipping, confirmOrder, payment }) =>{
   return(
-    <div className="checkout-progress d-flex justify-content-center align-items-center mx-4 mr-md-2">
+    <section className="checkout-progress d-flex justify-content-center align-items-center mx-4 mr-md-2">
       {shipping ?
       <Link to="/shipping" className="px-2">
-        <div className="step active-step">Shipping</div>
+        <section className="step active-step">Shipping</section>
       </Link> :
       <Link to="#!" disabled className="px-2">
-        <div className="step incomplete">Shipping</div>
+        <section className="step incomplete">Shipping</section>
       </Link>}
 
       {confirmOrder ?
       <Link to="/order/confirm" className="px-2">
-        <div className="step active-step">Confirm Order</div>
+        <section className="step active-step">Confirm Order</section>
       </Link> :
       <Link to="#!" disabled className="px-2">
-        <div className="step incomplete">Confirm Order</div>
+        <section className="step incomplete">Confirm Order</section>
       </Link>}
 
       {payment ?
       <Link to="/payment_method" className="px-2">
-        <div className="step active-step">Payment</div>
+        <section className="step active-step">Payment</section>
       </Link> :
       <Link to="#!" disabled className="px-2">
-        <div className="step incomplete">Payment</div>
+        <section className="step incomplete">Payment</section>
       </Link>}
-    </div>
+    </section>
   )
 }
 export default Checkout;

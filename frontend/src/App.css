@@ -24,7 +24,7 @@ html, body{
 }
 
 footer{
-  position: fixed;
+  position: relative;
   bottom: 0;
   width: 100%;
 }
@@ -50,6 +50,11 @@ footer{
   height: 2.4rem;
   padding: 1rem;
   box-shadow: none;
+}
+
+.header-loading{
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .border-0{
@@ -107,6 +112,11 @@ footer{
   color: black;
 }
 
+.sun,
+.moon{
+  align-items: center;
+}
+
 @keyframes lds-dual-ring{
   0%{
     transform: rotate(0deg);
@@ -120,10 +130,17 @@ footer{
   footer{
     position: relative;
   }
+  .sun,
+  .moon{
+    margin-right: 1rem;
+  }
 }
 
 @media only screen and (min-width: 48em) and (max-width: 64em){
   footer{
-    position: fixed;
+    position: relative;
+  }
+  #search_field{
+    margin-left: -2rem;
   }
 }

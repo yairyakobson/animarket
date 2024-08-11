@@ -39,20 +39,20 @@ const Dashboard = () =>{
   return(
     <AdminSidebar>
       <MetaData title={"Admin Dashboard"}/>
-      <div className="d-md-flex d-lg-flex justify-content-start align-items-center">
-        <div className="mb-2 me-4">
+      <section className="d-md-flex d-lg-flex justify-content-start align-items-center">
+        <section className="mb-2 me-4">
           <DatePicker
-          className="mt-md-2 mt-lg-2"
+          className="mt-2 mt-md-3 mt-lg-0"
           dateFormat={"MMMM dd, yyyy"}
           selected={startDate}
           onChange={(date) => setStartDate(date)}
           selectsStart
           startDate={startDate}
           endDate={endDate}/>
-        </div>
-        <div className="mb-2">
+        </section>
+        <section className="mb-2">
           <DatePicker
-          className="mt-md-2 mt-lg-2"
+          className="mt-2 mt-md-3 mt-lg-0"
           dateFormat={"MMMM dd, yyyy"}
           selected={endDate}
           onChange={(date) => setEndDate(date)}
@@ -60,14 +60,14 @@ const Dashboard = () =>{
           startDate={startDate}
           endDate={endDate}
           minDate={startDate}/>
-        </div>
+        </section>
 
-        <Button variant="danger" className="ms-md-4 ms-lg-4"
+        <Button variant="danger" className="mt-2 mt-md-2 mt-lg-0 ms-md-4 ms-lg-4"
         onClick={salesHandler}>Fetch</Button>
-      </div>
+      </section>
 
-      <Row className="my-5">
-        <Col xl={6} className="col-6 mb-3">
+      <Row as="section" className="my-5">
+        <Col as="section" xl={6} className="col-6 mb-3">
           <Card className="text-white bg-success o-hidden h-100">
             <Card.Body>
               <Card.Title className="text-center">Sales
@@ -77,7 +77,7 @@ const Dashboard = () =>{
             </Card.Body>
           </Card>
         </Col>
-        <Col xl={6} className="col-6 mb-3">
+        <Col as="section" xl={6} className="col-6 mb-3">
           <Card className="text-white bg-danger o-hidden h-100">
             <Card.Body>
               <Card.Title className="text-center">Orders
@@ -90,7 +90,6 @@ const Dashboard = () =>{
       </Row>
 
       <SalesChart salesData={data?.sales}/>
-      <div style={{ marginBottom: "7rem" }}/>
     </AdminSidebar>
   )
 }

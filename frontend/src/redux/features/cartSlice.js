@@ -14,8 +14,8 @@ export const cartSlice = createSlice({
       
       const isItemExists = state.cart.find((i) => i.product === item.product);
 
-      // If there's a new product,
-      // it will be added to the cart. If added an existing one, only its quantity value will be updated
+      /* If there's a new product,
+      it will be added to the cart. If added an existing one, only its quantity value will be updated */
       if(isItemExists){
         state.cart = state.cart.map( // item - new product | i - existing product
           (i) => i.product === isItemExists.product ? item : i

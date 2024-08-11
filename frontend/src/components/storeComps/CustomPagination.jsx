@@ -29,7 +29,7 @@ const CustomPagination = ({ resPerPage, filterProductsCount }) =>{
   }
 
   return(
-    <div className="d-flex justify-content-center my-3">
+    <section className="d-flex justify-content-center my-3">
       {filterProductsCount > resPerPage && (
       <Pagination
       activePage={currentPage}
@@ -42,7 +42,7 @@ const CustomPagination = ({ resPerPage, filterProductsCount }) =>{
       lastPageText={">>"}
       itemClass="page-item"
       linkClass={`page-link ${theme ? "" : "dark"}`}/>
-    )}</div>
+    )}</section>
   )
 }
 

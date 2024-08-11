@@ -18,13 +18,13 @@ export const store = configureStore({
     [productAPI.reducerPath]: productAPI.reducer,
     [authAPI.reducerPath]: authAPI.reducer,
     [userAPI.reducerPath]: userAPI.reducer,
-    [orderAPI.reducerPath]: orderAPI.reducer,
+    [orderAPI.reducerPath]: orderAPI.reducer
   },
   middleware: (getDefaultMiddleware)=>
   getDefaultMiddleware().concat([
     productAPI.middleware,
     authAPI.middleware,
     userAPI.middleware,
-    orderAPI.middleware,
+    orderAPI.middleware
   ])
 })

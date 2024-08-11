@@ -71,10 +71,10 @@ const NewProduct = () =>{
     <>
       <UserSidebar>
       <MetaData title={"Create A New Product"}/>
-        <Row>
-          <Col lg={10} className="col-12 mt-lg-0">
+        <Row as="section">
+          <Col as="section" lg={10} className="col-12 mt-lg-0">
             <Form onSubmit={createProductHandler}
-            className={`product-form ${theme ? "shadow-lg" : "dark"}`}>
+            className={`product-form py-md-4 ${theme ? "shadow-lg" : "dark"}`}>
 
               <FloatingLabel data-bs-theme={theme ? "light" : "dark"} label="Product Name">
                 <Form.Control type="text"
@@ -92,8 +92,8 @@ const NewProduct = () =>{
                 value={description}
                 onChange={productDataHandler}/>
 
-              <Row>
-                <Col>
+              <Row as="section">
+                <Col as="section">
                   <Form.Label className="mt-2"/>
                   <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                   name="price"
@@ -102,7 +102,7 @@ const NewProduct = () =>{
                   onChange={productDataHandler}/>
                 </Col>
 
-                <Col>
+                <Col as="section">
                   <Form.Label className="mt-2"/>
                   <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                   name="stock"
@@ -117,8 +117,7 @@ const NewProduct = () =>{
                 data-bs-theme={theme ? "light" : "dark"}
                 name="category"
                 value={category}
-                onChange={productDataHandler}
-                required>
+                onChange={productDataHandler}>
                 {PRODUCT_CATEGORIES?.map((category) =>(
                   <option key={category} value={category}>{category ? category : ""}</option>
                 ))}
@@ -129,8 +128,7 @@ const NewProduct = () =>{
                 <Form.Select
                 name="condition"
                 value={condition}
-                onChange={productDataHandler}
-                required>
+                onChange={productDataHandler}>
                 {PRODUCT_CONDITION?.map((condition) =>(
                   <option key={condition} value={condition}>{condition}</option>
                 ))}
@@ -152,7 +150,6 @@ const NewProduct = () =>{
           </Col>
         </Row>
       </UserSidebar>
-      <div style={{ marginBottom: "5rem" }}/>
     </>
   )
 }

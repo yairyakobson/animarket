@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
@@ -7,6 +7,12 @@ const Search = () =>{
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
+  const hiddenCondition = useMemo(() =>(
+    location.pathname.match("/register") ||
+    location.pathname.match("/login") ||
+    location.pathname.match("/password/forgotpassword")
+  ), [location.pathname]);
 
   const searchHandler = (e) =>{
     e.preventDefault();
@@ -21,24 +27,18 @@ const Search = () =>{
 
   return(
     <Form onSubmit={searchHandler}>
-      <InputGroup>
+      <InputGroup as="section">
         <Form.Control type="text" id="search_field" className="border-0"
         placeholder="Search"
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
-        hidden={
-        location.pathname.match("/register") ||
-        location.pathname.match("/login") ||
-        location.pathname.match("/password/forgotpassword")}/>
-        <div>
+        hidden={hiddenCondition}/>
+        <section>
           <Button className="border-danger btn-danger" onClick={searchHandler}
-          hidden={
-          location.pathname.match("/register") ||
-          location.pathname.match("/login") ||
-          location.pathname.match("/password/forgotpassword")}>
+          hidden={hiddenCondition}>
             <FaSearch aria-hidden="true" className="icon"/>
           </Button>
-        </div>
+        </section>
       </InputGroup>
     </Form>
   )

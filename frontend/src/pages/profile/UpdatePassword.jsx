@@ -35,8 +35,8 @@ const UpdatePassword = () =>{
     <>
       <MetaData title={"Update Your Password"}/>
       <UserSidebar>
-        <Row>
-          <Col>
+        <Row as="section">
+          <Col as="section">
             <Form onSubmit={handlePasswordUpdate} className={`${theme ? "" : "dark"}`}>
               {error && <Alert className="alert-danger" style={{ marginTop: 25 }}>{error?.data?.message}</Alert>}
               <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Old Password">

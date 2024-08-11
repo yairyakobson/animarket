@@ -34,16 +34,16 @@ const NewReview = ({ productId }) =>{
     submitReview(reviewData);
   }
   return(
-    <div>
+    <section>
       <Button variant="danger"
       className="mt-4"
       data-bs-toggle="modal"
       data-bs-target="#ratingModal"
       hidden={product?.seller === user?.name}>Submit your review</Button>
 
-      <Row className="mt-2 mb-5" data-bs-theme={theme ? "light" : "dark"}>
-        <div className="rating w-50">
-          <div id="ratingModal" className="modal fade">
+      <Row as="section" className="mt-2 mb-5" data-bs-theme={theme ? "light" : "dark"}>
+        <section className="rating w-50">
+          <section id="ratingModal" className="modal fade">
             <Modal.Dialog>
               <Modal.Header>
                 <Modal.Title id="ratingModalLabel">Submit Review</Modal.Title>
@@ -75,10 +75,10 @@ const NewReview = ({ productId }) =>{
                 disabled={isLoading || !comment}>Submit</Button>
               </Modal.Body>
             </Modal.Dialog>
-          </div>
-        </div>
+          </section>
+        </section>
       </Row>
-    </div>
+    </section>
   )
 }
 

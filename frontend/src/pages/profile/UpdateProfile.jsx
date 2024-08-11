@@ -59,10 +59,10 @@ const UpdateProfile = () =>{
     <>
       <MetaData title={"Update Your Profile"}/>
       <UserSidebar>
-        <Row>
-          <Col>
+        <Row as="section">
+          <Col as="section">
             <Form onSubmit={handleUpdate} className={`${theme ? "" : "dark"}`}>
-              <div className="reg-profile-pic_container">
+              <section className="reg-profile-pic_container">
                 <img src={updatedImg || imgPreview} alt="" className="reg-profile-pic mt-2"/>
                 <label htmlFor="image-upload" className="image-upload-label">
                   <i className="fas fa-plus-circle add-picture-icon"/>
@@ -70,7 +70,7 @@ const UpdateProfile = () =>{
                 <input type="file" id="image-upload"
                 hidden
                 onChange={validateImage}/>
-              </div>
+              </section>
 
               {error && <Alert className="alert-danger" style={{ marginTop: 25 }}>{error?.data?.message}</Alert>}
               <FloatingLabel className="mt-5" data-bs-theme={theme ? "light" : "dark"} label="Name">
