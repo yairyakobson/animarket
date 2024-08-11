@@ -13,14 +13,14 @@ const Profile = () =>{
     <>
       <MetaData title={"Your Profile"}/>
       <UserSidebar>
-        <Row className="justify-content-around">
-          <Col md={4}>
+        <Row as="section" className="justify-content-around">
+          <Col as="section" md={4}>
             <figure className="avatar avatar-profile">
               <img src={user?.picture?.url} alt={user?.name} className="rounded-circle"/>
             </figure>
           </Col>
 
-          <Col md={4}>
+          <Col as="section" md={4}>
             <h4>Full Name</h4>
             <p>{user?.name}</p>
 

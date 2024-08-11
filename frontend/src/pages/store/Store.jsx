@@ -36,41 +36,42 @@ const Store = () =>{
     <>
       <MetaData title={"Animarket"}/>
       {isLoading ? <Loader/> : (
-        <Container className={`mt-3 ${theme ? "" : "dark"}`}>
-          {!isLoading && (
-            <h1 id="products_heading" style={{ marginLeft: keyword ? "0.8rem" : ""}}>{keyword ? `${data?.filterProductsCount} Products found` : "All Products"}</h1>
-          )}
-          <Container id="products">
-            <Row>
-              {keyword ? (
-                <>
-                  <Col>
-                    <Row className="mt-3">
-                      {data?.products?.map(product =>(
-                        <ProductList key={product._id} product={product}/>
-                      ))}
-                    </Row>
-                  </Col>
+      <Container as="section" className={`mt-3 ${theme ? "" : "dark"}`}>
+        {!isLoading && (
+          <h1 id="products_heading" style={{ marginLeft: keyword ? "0.8rem" : ""}}>
+            {keyword ? `${data?.filterProductsCount} Products found` : "All Products"}
+          </h1>
+        )}
+        <Container as="section" id="products">
+          <Row as="section">
+            {keyword ? (
+              <>
+                <Col as="section">
+                  <Row as="section" className="mt-3">
+                    {data?.products?.map(product =>(
+                      <ProductList key={product._id} product={product}/>
+                    ))}
+                  </Row>
+                </Col>
 
-                  <Col lg={3} className="col-8 mt-4 mb-5">
-                    <Container>
-                      <Price/>
-                      <hr/>
-                      <Category/>
-                      <hr/>
-                      <RatingSearch/>
-                    </Container>
-                  </Col>
-                </>
+                <Col as="section" lg={3} className="col-8 mt-4 mb-5">
+                  <Container as="section">
+                    <Price/>
+                    <hr/>
+                    <Category/>
+                    <hr/>
+                    <RatingSearch/>
+                  </Container>
+                </Col>
+              </>
               ) : (data?.products?.map(product =>(
                     <ProductList key={product._id} product={product}/>
                 ))
-              )}
-            </Row>
-          </Container>
-        <CustomPagination resPerPage={data?.resPerPage} filterProductsCount={data?.filterProductsCount}/>
-        <div style={{ marginBottom: "5rem" }}/>
+              )};
+          </Row>
         </Container>
+        <CustomPagination resPerPage={data?.resPerPage} filterProductsCount={data?.filterProductsCount}/>
+      </Container>
       )}
     </>
   )

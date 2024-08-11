@@ -35,20 +35,20 @@ const AdminSidebar = ({ children }) =>{
   ];
 
   return(
-    <div>
-      <div className="mt-2 py-4">
+    <section>
+      <section className="mt-2 py-4">
         <h2 className="text-center fw-bolder" style={{ color: theme ? "black" : "whitesmoke" }}>Admin Sidebar</h2>
-      </div>
+      </section>
 
-      <Container>
-        <Row className={`justify-content-around ${theme ? "" : "dark"}`}>
-          <Col lg={3} className="col-12">
+      <Container as="section">
+        <Row as="section" className={`justify-content-around ${theme ? "" : "dark"}`}>
+          <Col as="section" lg={3} className="col-12">
             <SidebarConfig menuItems={menuItems}/>
           </Col>
-          <Col lg={9} className="col-12 my-2">{children}</Col>
+          <Col as="section" lg={9} className="col-12 my-2">{children}</Col>
         </Row>
       </Container>
-    </div>
+    </section>
   );
 };
 

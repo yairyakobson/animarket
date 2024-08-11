@@ -44,11 +44,11 @@ const Invoice = () =>{
   }
 
   return(
-    <div>
+    <section>
       <MetaData title={`Invoice ${order?._id}`}/>
       {isLoading ? <Loader/> : (
-        <Container className="order-invoice my-5">
-          <Row className="d-flex justify-content-center mb-5">
+        <Container as="section" className="order-invoice my-5">
+          <Row as="section" className="d-flex justify-content-center mb-5">
             <Button variant="success" className="col-6 col-md-3 col-lg-2 justify-content-center"
             onClick={downloadInvoiceHandler}>
               Download Invoice
@@ -62,40 +62,40 @@ const Invoice = () =>{
               </section>
               <h1>Invoice #{order?._id}</h1>
               <section id="company" className="clearfix">
-                <div>Animarket</div>
-                <div>
+                <section>Animarket</section>
+                <section>
                   Menachem Begin 137, Tel-Aviv
                   <br/>
                   Israel
-                </div>
-                <div>+972502151798</div>
-                <div>
+                </section>
+                <section>+972502151798</section>
+                <section>
                  <a href="mailto:info@animarket.com">info@animarket.com</a>
-                </div>
+                </section>
               </section>
 
               <section id="project">
-                <div>
+                <section>
                   <span>Name</span>{user?.name}
-                </div>
-                <div>
+                </section>
+                <section>
                   <span>Email</span>{user?.email}
-                </div>
-                <div>
+                </section>
+                <section>
                   <span>Phone</span>{shippingInfo?.phoneNumber}
-                </div>
-                <div>
+                </section>
+                <section>
                   <span>Address</span>
                   {shippingInfo?.address}, {shippingInfo?.city},
                   {shippingInfo?.zipCode}, {shippingInfo?.country}
-                </div>
-                <div>
+                </section>
+                <section>
                   <span>Date</span>
                   {format(new Date(order?.orderDate), "MMMM do yyyy")}
-                </div>
-                <div>
+                </section>
+                <section>
                   <span>Status</span>{paymentInfo?.status.toUpperCase()}
-                </div>
+                </section>
               </section>
             </header>
 
@@ -150,17 +150,16 @@ const Invoice = () =>{
                   </tr>
                 </tbody>
               </Table>
-              <div id="notices">
+              <section id="notices">
                 <b className="notice">Notice:</b>
-                <div className="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
-              </div>
+                <section className="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</section>
+              </section>
             </main>
             <footer className="position-relative">Invoice was created on a computer and is valid without the signature.</footer>
           </section>
-          <div style={{ marginBottom: "5rem" }}/>
         </Container>
       )}
-    </div>
+    </section>
   )
 }
 

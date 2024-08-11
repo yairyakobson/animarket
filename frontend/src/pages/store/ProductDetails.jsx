@@ -78,19 +78,19 @@ const ProductDetails = () =>{
  return(
    <>
      <MetaData title={product?.name}/>
-       <Container className={`${theme ? "" : "dark"}`}>
-         <Row className="d-flex justify-content-around">
-           <Col lg={6} className="col-10" id="product_image">
-             <div className="p-3">
+       <Container as="section" className={`${theme ? "" : "dark"}`}>
+         <Row as="section" className="d-flex justify-content-around">
+           <Col as="section" lg={6} className="col-10" id="product_image">
+             <section className="p-3">
                <img className="d-block w-100"
                src={activeImg}
                alt={product?.name}
                height="400px"/>
-             </div>
+             </section>
 
-             <Row className="justify-content-start mt-2">
+             <Row as="section" className="justify-content-start mt-2">
                {product?.images?.map((img) =>(
-                 <Col md={3} lg={3} className="col-5 ms-3 mt-4" key={img?._id}>
+                 <Col as="section" md={3} lg={3} className="col-5 ms-3" key={img?._id}>
                    <a role="button">
                      <img className={`d-block border rounded p-3 p-lg-2 cursor-pointer ${
                      img.url === activeImg && "border-danger"}`}
@@ -105,10 +105,10 @@ const ProductDetails = () =>{
              </Row>
            </Col>
 
-           <Col lg={6} className="col-10" id="product_details">
+           <Col as="section" lg={6} className="col-10" id="product_details">
              <h3>{product?.name}</h3>
 
-             <div className="d-flex">
+             <section className="d-flex">
                <Rating
                iconsCount={5}
                initialValue={product?.rating}
@@ -119,12 +119,12 @@ const ProductDetails = () =>{
                <span id="no-of-reviews" className="pt-1 px-2">
                  ({product?.totalReviews} Reviews)
                </span>
-             </div>
+             </section>
              <hr/>
 
              <p id="product_price">${product?.price}</p>
 
-             <div className="stockCounter d-inline">
+             <section className="stockCounter d-inline">
                <Button variant="danger" className="minus"
                onClick={decreaseQty}
                disabled={product?.stock === 0 || !user || product?.seller === user?.name}>-</Button>
@@ -138,10 +138,10 @@ const ProductDetails = () =>{
                <Button variant="danger" className="plus"
                onClick={increaseQty}
                disabled={product?.stock === 0 || !user || product?.seller === user?.name}>+</Button>
-             </div>
+             </section>
 
              <Button id="cart_btn"
-             className="btn-danger d-inline ms-2 ms-lg-4"
+             className="btn-danger d-inline ms-4 ms-md-4 ms-lg-4"
              disabled={product?.stock === 0 || !user || product?.seller === user?.name}
              onClick={addToCart}>Add to Cart</Button>
 
@@ -151,7 +151,7 @@ const ProductDetails = () =>{
              <p>Stock:
                <span id="stock_status"
                className={product?.stock > 0 ? "greenColor" : "redColor"}>
-                 {product?.stock > 0 ? "In Stock" : "Out of Stock"}
+                 {product?.stock > 0 ? `In Stock ${product?.stock === 1 ? "(Only 1 left)" : ""}` : "Out of Stock"}
                </span>
              </p>
 
@@ -166,12 +166,10 @@ const ProductDetails = () =>{
              )}
            </Col>
          </Row>
-         <div style={{ marginBottom: "9rem" }}/>
          {product?.reviews && product?.reviews?.length > 0 && (
            <ReviewList reviews={product?.reviews}/>
          )}
        </Container>
-       <div className="mt-lg-5"/>
    </>
  )
 }

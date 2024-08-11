@@ -95,7 +95,7 @@ const Products = () =>{
     <>
       <AdminSidebar>
         <MetaData title={"All Products"}/>
-        <Container>
+        <Container as="section">
           <h1>{data?.products?.length} Products</h1>
           <MDBDataTableV5 data={setProducts()}
           className="mt-lg-3"
@@ -108,7 +108,6 @@ const Products = () =>{
           sortable={false}/>
         </Container>
       </AdminSidebar>
-      <div style={{ marginBottom: "5rem" }}/>
     </>
   )
 }

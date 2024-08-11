@@ -42,10 +42,10 @@ const OrderDetails = () =>{
     <>
       <MetaData title={`Order ${order?._id} Details`}/>
       {isLoading ? <Loader/> : (
-        <Container>
-        <Row className="d-flex justify-content-center">
-          <Col lg={9} className="col-12 mt-5">
-            <div className={`d-flex justify-content-between align-items-center ${theme ? "" : "dark"}`}>
+        <Container as="section">
+        <Row as="section" className="d-flex justify-content-center">
+          <Col as="section" lg={9} className="col-12 mt-5">
+            <section className={`d-flex justify-content-between align-items-center ${theme ? "" : "dark"}`}>
               <h3 className="mb-3">Your Order Details</h3>
               <OverlayTrigger overlay={<Tooltip data-bs-theme={theme ? "light" : "dark"}>Invoice</Tooltip>}>
                 <Link to={`/invoice/order/${order?._id}`}
@@ -53,7 +53,7 @@ const OrderDetails = () =>{
                   <IoMdDocument className="invoice-order-icon"/>
                 </Link>
               </OverlayTrigger>
-            </div>
+            </section>
             <Table striped bordered
             className="mb-5"
             variant={theme ? "light" : "dark"}>
@@ -84,9 +84,9 @@ const OrderDetails = () =>{
               </tbody>
             </Table>
 
-            <div className={`d-flex justify-content-between align-items-center ${theme ? "" : "dark"}`}>
+            <section className={`d-flex justify-content-between align-items-center ${theme ? "" : "dark"}`}>
               <h3 className="mb-3">Shipping Information</h3>
-            </div>
+            </section>
             <Table striped bordered
             className="mb-5"
             variant={theme ? "light" : "dark"}>
@@ -111,9 +111,9 @@ const OrderDetails = () =>{
               </tbody>
             </Table>
 
-            <div className={`d-flex justify-content-between align-items-center ${theme ? "" : "dark"}`}>
+            <section className={`d-flex justify-content-between align-items-center ${theme ? "" : "dark"}`}>
               <h3 className="mb-3">Payment Information</h3>
-            </div>
+            </section>
             <Table striped bordered
             className="mb-5"
             variant={theme ? "light" : "dark"}>
@@ -132,7 +132,7 @@ const OrderDetails = () =>{
 
                 <tr>
                   <th scope="row">Payment ID</th>
-                  <td>{paymentInfo?.id || "Nill"}</td>
+                  <td>{paymentInfo?.id || "Null"}</td>
                 </tr>
 
                 <tr>
@@ -159,36 +159,35 @@ const OrderDetails = () =>{
               </tbody>
             </Table>
 
-            <div className={`my-1 ${theme ? "" : "dark"}`}>
+            <section className={`my-1 ${theme ? "" : "dark"}`}>
               <h3>Products</h3>
               <hr style={{ color: theme ? "black" : "whitesmoke" }}/>
               {orderItems?.map((item) =>(
-                <Row className="mb-5" key={item?.name} style={{ marginLeft: "0"}}>
-                  <Col md={3} lg={3} className={`col-5 ${theme ? "" : "dark"}`}>
+                <Row as="section" className="mb-5" key={item?.name} style={{ marginLeft: "0"}}>
+                  <Col as="section" md={3} lg={3} className={`col-5 ${theme ? "" : "dark"}`}>
                     <img src={item?.image} alt={item?.name}
                     height="150"
                     width="130"/>
                   </Col>
 
-                  <Col md={5} lg={4} className="col-4">
+                  <Col as="section" md={5} lg={4} className="col-4">
                     <Link to={`/products/${item?.product}`}
                     style={{ color: theme ? "black" : "whitesmoke", textDecoration: "none"}}>{item?.name}</Link>
                   </Col>
 
-                  <Col md={2} lg={2} className={`col-4 mt-4 mt-md-0 mt-lg-0 text-${theme ? "dark" : "light"} fs-4 fw-bold`}>
+                  <Col as="section" md={2} lg={2} className={`col-4 mt-4 mt-md-0 mt-lg-0 text-${theme ? "dark" : "light"} fs-4 fw-bold`}>
                     <p>${item?.price}</p>
                   </Col>
 
-                  <Col md={2} lg={3} className={`col-4 mt-4 mt-md-1 mt-lg-1 text-${theme ? "dark" : "light"} fw-bold`}>
+                  <Col as="section" md={2} lg={3} className={`col-4 mt-4 mt-md-1 mt-lg-1 text-${theme ? "dark" : "light"} fw-bold`}>
                     <p>x {item?.quantity}</p>
                   </Col>
                 </Row>
               ))}
-            </div>
+            </section>
             <hr/>
           </Col>
         </Row>
-        <div style={{ marginBottom: "5rem" }}/>
       </Container>
       )}
     </>

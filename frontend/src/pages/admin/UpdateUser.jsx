@@ -44,7 +44,7 @@ const UpdateUser = () =>{
     <>
       <MetaData title={"Update User"}/>
       <AdminSidebar>
-        <Container>
+        <Container as="section">
           <Form onSubmit={handleUpdate}>
             <Form.Label data-bs-theme={theme ? "light" : "dark"}>
               <Form.Select name="role"
@@ -60,7 +60,6 @@ const UpdateUser = () =>{
           </Form>
         </Container>
       </AdminSidebar>
-      <div style={{ marginBottom: "5rem" }}/>
     </>
   )
 }

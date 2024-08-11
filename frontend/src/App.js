@@ -52,6 +52,7 @@ function App(){
   return(
     <>
       <Header/>
+      <section className="d-flex flex-column min-vh-100">
         <Routes>
           <Route path="/" element={<Store/>}/>
           <Route path="/register" element={<Register/>}/>
@@ -89,7 +90,7 @@ function App(){
             <UpdatePassword/>
           </ProtectedRoute>}/>
 
-          <Route path={"/profile/new_product"} element={
+          <Route path="/profile/new_product" element={
           <ProtectedRoute>
             <NewProduct/>
           </ProtectedRoute>}/>
@@ -159,8 +160,9 @@ function App(){
 
           <Route path="*" element={<NotFound/>}/>
         </Routes>
-        <Toaster richColors position="top-right"/>
+        <Toaster richColors position="top-center"/>
       <Footer/>
+      </section>
     </>
   );
 }

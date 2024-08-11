@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { toast } from "sonner";
 
-import { caluclateOrderCost } from "../../../components/storeComps/PriceHelper";
+import { calculateOrderCost } from "../../../components/storeComps/PriceHelper";
 import { useCheckoutSessionMutation, useCreateNewOrderMutation } from "../../../redux/services/orderApi";
 import Checkout from "./Checkout";
 import MetaData from "../../../components/MetaData";
@@ -43,7 +43,7 @@ const Payment = () =>{
   const paymentHandler = (e) =>{
     e.preventDefault();
     const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
-    caluclateOrderCost(cart);
+    calculateOrderCost(cart);
 
     if(method === "COD"){
       const orderData ={
@@ -54,9 +54,9 @@ const Payment = () =>{
         taxPrice,
         totalPrice,
         paymentInfo: {
-          status: "Not Paid",
+          status: "Not Paid"
         },
-        paymentMethod: "COD",
+        paymentMethod: "COD"
       }
       createNewOrder(orderData);
     }
@@ -77,9 +77,9 @@ const Payment = () =>{
     <>
       <MetaData title={"Payment Method"}/>
       <Checkout shipping confirmOrder payment/>
-        <Container>
-          <Row className="d-flex justify-content-center align-items-center mb-5">
-            <Col md={8} lg={5} className={`col-10 ${theme ? "shadow-lg" : ""}`}>
+        <Container as="section">
+          <Row as="section" className="d-flex justify-content-center align-items-center mb-5">
+            <Col as="section" md={8} lg={5} className={`col-10 ${theme ? "shadow-lg" : ""}`}>
               <Form onSubmit={paymentHandler} className={`${theme ? "" : "dark"}`}>
                 <h2>Select Payment Method</h2>
                 <Form.Check>
@@ -94,8 +94,10 @@ const Payment = () =>{
                   <Form.Check.Input type="radio" data-bs-theme={theme ? "light" : "dark"}
                   name="payment_mode"
                   value="Card"
-                  onChange={() => setMethod("Card")}/>
-                  <Form.Check.Label>Card - VISA, MasterCard</Form.Check.Label>
+                  onChange={() => setMethod("Card")}
+                  disabled/>
+                  <Form.Check.Label>Card - VISA, MasterCard - Currently Disabled</Form.Check.Label>
+                  {method === "Card" && <p className="text-warning">Stock will change when the order is successfully delivered</p>}
                 </Form.Check>
 
                 <Button type="submit"

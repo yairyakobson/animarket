@@ -60,8 +60,8 @@ const UpdateOrder = () =>{
   return(
     <AdminSidebar>
     <MetaData title={`Process Order ${order?._id}`}/>
-      <Row className="d-flex justify-content-around">
-        <Col lg={9} className="col-12">
+      <Row as="section" className="d-flex justify-content-around">
+        <Col as="section" lg={9} className="col-12">
           <h3 className="mb-2">Order Details</h3>
           <Table striped bordered
           variant={theme ? "light" : "dark"}>
@@ -145,38 +145,38 @@ const UpdateOrder = () =>{
 
           <h3 className="mt-3 my-2">Order Items:</h3>
           <hr/>
-          <div className="my-1">
+          <section className="my-1">
             {orderItems?.map((item) =>(
-              <Row className="my-3" key={item?.name}>
-                <Col md={3} lg={3} className="col-5">
+              <Row as="section" className="my-3" key={item?.name}>
+                <Col as="section" md={3} lg={3} className="col-5">
                   <img src={item?.image} alt={item?.name}
                   height="150"
                   width="130"/>
                 </Col>
 
-                <Col md={5} lg={4} className="col-4">
+                <Col as="section" md={5} lg={4} className="col-4">
                   <Link to={`/product/${item?.product}`}
                   style={{ color: theme ? "black" : "whitesmoke", textDecoration: "none"}}>{item?.name}</Link>
                 </Col>
 
-                <Col md={2} lg={2} className={`col-4 mt-4 mt-md-0 mt-lg-0 text-${theme ? "dark" : "light"} fs-4 fw-bold`}>
+                <Col as="section" md={2} lg={2} className={`col-4 mt-4 mt-md-0 mt-lg-0 text-${theme ? "dark" : "light"} fs-4 fw-bold`}>
                   <p>${item?.price}</p>
                 </Col>
 
-                <Col md={2} lg={3} className={`col-4 mt-4 mt-md-1 mt-lg-1 text-${theme ? "dark" : "light"} fw-bold`}>
+                <Col as="section" md={2} lg={3} className={`col-4 mt-4 mt-md-1 mt-lg-1 text-${theme ? "dark" : "light"} fw-bold`}>
                   <p>x {item?.quantity}</p>
                 </Col>
               </Row>
             ))}
-          </div>
+          </section>
           <hr/>
         </Col>
 
-        <Col lg={3} className="col-12 mt-3">
+        <Col as="section" lg={3} className="col-12 mt-3">
           {order?.orderStatus !== "Delivered" && (
             <>
               <h4 className="my-2">Status</h4>
-              <div className="mb-3">
+              <section className="mb-3">
                 <Form.Select data-bs-theme={theme ? "light" : "dark"}
                 name="status"
                 value={status}
@@ -185,7 +185,7 @@ const UpdateOrder = () =>{
                   <option key={option} value={option}>{option}</option>
                 ))}
                 </Form.Select>
-              </div>
+              </section>
 
               <Button className="btn-danger"
               onClick={() => updateOrderHandler(order?._id)}
@@ -200,7 +200,6 @@ const UpdateOrder = () =>{
           </Link>
         </Col>
       </Row>
-      <div style={{ marginBottom: "5rem" }}/>
     </AdminSidebar>
   )
 }

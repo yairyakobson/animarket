@@ -44,49 +44,44 @@ const Shipping = () =>{
     <>
       <MetaData title={"Shipment Information"}/>
       <Checkout shipping/>
-        <Container>
-          <Row className="d-flex justify-content-center align-items-center mb-5">
-            <Col lg={5} className={`col-10 ${theme ? "shadow-lg" : ""}`}>
+        <Container as="section">
+          <Row as="section" className="d-flex justify-content-center align-items-center mb-5">
+            <Col as="section" lg={5} className={`col-10 ${theme ? "shadow-lg" : ""}`}>
               <Form onSubmit={shippingHandler} className={`${theme ? "" : "dark"}`}>
                 <h1 className="mt-4 text-center">Shipping Information</h1>
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Address">
                   <Form.Control type="text"
                   placeholder="Address"
                   value={address || ""}
-                  onChange={(e) => setAddress(e.target.value)}
-                  required/>
+                  onChange={(e) => setAddress(e.target.value)}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="City">
                   <Form.Control type="text"
                   placeholder="City"
                   value={city || ""}
-                  onChange={(e) => setCity(e.target.value)}
-                  required/>
+                  onChange={(e) => setCity(e.target.value)}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Zip Code">
                   <Form.Control type="number"
                   placeholder="Zip Code"
                   value={zipCode || ""}
-                  onChange={(e) => setZipCode(e.target.value)}
-                  required/>
+                  onChange={(e) => setZipCode(e.target.value)}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Phone Number">
                   <Form.Control type="number"
                   placeholder="Phone Number"
                   value={phoneNumber || ""}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  required/>
+                  onChange={(e) => setPhoneNumber(e.target.value)}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Country">
                   <Form.Select
                   name="country"
                   value={country || ""}
-                  onChange={(e) => setCountry(e.target.value)}
-                  required>
+                  onChange={(e) => setCountry(e.target.value)}>
                   {countriesList?.map((country) => (
                     <option key={country?.name} value={country?.name}>{country?.name}</option>
                   ))}

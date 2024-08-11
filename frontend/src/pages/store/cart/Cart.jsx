@@ -58,39 +58,39 @@ const Cart = () =>{
         <b>{`Your Cart: ${cart?.length} Products`}</b>
       </h2>
 
-      <Row className="d-flex justify-content-between">
-        <Col md={8} lg={8} className={`col-12 mx-lg-4 ${theme ? "" : "dark"}`}>
+      <Row as="section" className="d-flex justify-content-between">
+        <Col as="section" md={8} lg={8} className={`col-12 mx-lg-4 ${theme ? "" : "dark"}`}>
           {cart?.map((item) =>(
             <Fragment key={item?.name}>
               <hr className={`${theme ? "" : "dark"}`}/>
-              <Container className={`${theme ? "" : "dark"}`}>
-                <Row>
-                  <Col md={4} lg={3}>
+              <Container as="section" className={`${theme ? "" : "dark"}`}>
+                <Row as="section">
+                  <Col as="section" md={4} lg={3}>
                     <img src={item?.image} alt={item?.name}
                     height="180"
                     width="150"/>
                   </Col>
 
-                  <Col md={2} lg={3} className="mt-2 mt-md-0">
+                  <Col as="section" md={2} lg={3} className="mt-2 mt-md-0">
                     <Link to={`/product/${item?.product}`}
                     style={{ color: theme ? "black" : "whitesmoke", textDecoration: "none"}}>{item?.name}</Link>
                   </Col>
 
-                  <Col md={1} lg={2} className={`col-3 mt-4 mt-md-0 mt-lg-0 text-${theme ? "dark" : "light"} fw-bold`}>
+                  <Col as="section" md={1} lg={2} className={`col-3 mt-4 mt-md-0 mt-lg-0 text-${theme ? "dark" : "light"} fw-bold`}>
                     <p id="card_item_price">${item?.price}</p>
                   </Col>
 
-                  <Col md={4} lg={3} className="col-5 mt-4 mt-md-0 mt-lg-0">
-                    <div className="stockCounter d-inline">
+                  <Col as="section" md={4} lg={3} className="col-5 mt-4 mt-md-0 mt-lg-0">
+                    <section className="stockCounter d-inline">
                       <Button className="btn-danger minus" onClick={() => decreaseQty(item, item.quantity)}>-</Button>
                       <Form.Control type="number" className={`count d-inline border-0 ${theme ? "" : "dark"}`}
                       value={item?.quantity}
                       readOnly/>
                       <Button className="btn-danger plus" onClick={() => increaseQty(item, item.quantity)}>+</Button>
-                    </div>
+                    </section>
                   </Col>
 
-                  <Col md={1} lg={1} className="col-4 mt-md-0 mt-lg-0" style={{ marginTop: "1.65rem"}}>
+                  <Col as="section" md={1} lg={1} className="col-4 mt-md-0 mt-lg-0" style={{ marginTop: "1.65rem"}}>
                     <FaTrash className="icon mt-2"
                     onClick={() => removeFromCart(item?.product)}/>
                   </Col>
@@ -101,8 +101,8 @@ const Cart = () =>{
           ))}
         </Col>
 
-        <Col md={4} lg={3} className="col-8">
-          <div id="order_summary" className={`border border-dark-subtle ${theme ? "" : "dark"}`}>
+        <Col as="section" md={4} lg={3} className="col-8">
+          <section id="order_summary" className={`border border-dark-subtle ${theme ? "" : "dark"}`}>
             <h4>Order Summary</h4>
             <hr/>
               <p>Total Items: <span className="order-summary-values">{cart.reduce((acc, item) => (acc + Number(item?.quantity)), 0)} (Units)</span></p>
@@ -110,7 +110,7 @@ const Cart = () =>{
               <hr/>
               <Link to="/shipping" id="checkout_btn" className="btn btn-danger btn-block mb-3"
               disabled={cart.length === 0}>Check Out</Link>
-          </div>
+          </section>
         </Col>
       </Row>
     </>

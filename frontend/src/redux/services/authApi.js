@@ -46,7 +46,7 @@ export const authAPI = createApi({
     }),
     logoutUser: builder.query({
       query: () => "/logout",
-    }),
+    })
   }),
 });
 

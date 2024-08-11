@@ -90,12 +90,12 @@ const UpdateProduct = () =>{
     <>
       <AdminSidebar>
       <MetaData title={"Update Product"}/>
-        <Row>
-          <Col lg={10} className="col-12 mt-lg-0">
+        <Row as="section">
+          <Col as="section" lg={10} className="col-12 mt-lg-0">
             <Form onSubmit={updateProductHandler}
             className={`product-form ${theme ? "shadow-lg" : "dark"}`}>
-              <Row>
-                <Col>
+              <Row as="section">
+                <Col as="section">
                   <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Price">
                     <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                     name="price"
@@ -104,7 +104,7 @@ const UpdateProduct = () =>{
                   </FloatingLabel>
                 </Col>
 
-                <Col>
+                <Col as="section">
                   <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Stock">
                     <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                     name="stock"
@@ -124,12 +124,13 @@ const UpdateProduct = () =>{
               </Form.Group>
               
               {imagesPreview?.length > 0 && (
-                <div className="my-4">
-                  <p className="text-warning">New Images:</p>
-                  <Row>
+                <section className="my-4">
+                  <p className="text-black">New Images:</p>
+                  <Row as="section">
                     {imagesPreview?.map((img) =>(
-                      <Col md={3} className="col-6">
-                        <Card data-bs-theme={theme ? "light" : "dark"}>
+                      <Col as="section" md={3} className="col-6">
+                        <Card data-bs-theme={theme ? "light" : "dark"}
+                        aria-required="true">
                           <img src={img} alt="Card"
                           className="card-img-top p-2"
                           style={{ width: "100%", height: "150px" }}/>
@@ -143,16 +144,16 @@ const UpdateProduct = () =>{
                       </Col>
                     ))}
                   </Row>
-                  <p className="text-warning mt-3">Updating the images will replace the current ones</p>
-                </div>
+                  <p className="text-warning mt-3 h5">Updating the images will replace the current ones</p>
+                </section>
               )}
 
               {uploadedImages?.length > 0 && (
-                <div className="my-4">
+                <section className="my-4">
                   <p className="text-success">Current Product Images:</p>
-                  <Row>
+                  <Row as="section">
                     {uploadedImages?.map((img) =>(
-                      <Col md={3} className="col-6">
+                      <Col as="section" md={3} className="col-6">
                         <Card data-bs-theme={theme ? "light" : "dark"}>
                           <img src={img?.url} alt="Card"
                           className="card-img-top p-2"
@@ -166,15 +167,14 @@ const UpdateProduct = () =>{
                       </Col>
                     ))}
                   </Row>
-                </div>
+                </section>
               )}
               <Button type="submit" className="btn-danger my-3"
-              disabled={isLoading || imagesPreview?.length === 0}>Update</Button>
+              disabled={isLoading}>Update</Button>
             </Form>
           </Col>
         </Row>
       </AdminSidebar>
-      <div style={{ marginBottom: "3rem" }}/>
     </>
   )
 }

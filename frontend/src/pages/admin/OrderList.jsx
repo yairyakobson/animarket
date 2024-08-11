@@ -95,7 +95,7 @@ const OrderList = () => {
     <>
       <MetaData title={"All Orders"}/>
       <AdminSidebar>
-        <Container>
+        <Container as="section">
           <h1>{data?.orders?.length} Orders</h1>
           <MDBDataTableV5 data={setOrders()}
           className="mt-lg-3"
@@ -108,7 +108,6 @@ const OrderList = () => {
           sortable={false}/>
         </Container>
       </AdminSidebar>
-      <div style={{ marginBottom: "5rem" }}/>
     </>
   )
 }

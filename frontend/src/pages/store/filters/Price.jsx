@@ -28,8 +28,8 @@ const Price = () =>{
     <>
       <h4 className="mx-auto">Price</h4>
         <Form onSubmit={priceRangeHandler} className="p-0">
-          <Row>
-            <Col md={3} lg={4} className="col-5">
+          <Row as="section">
+            <Col as="section" md={3} lg={4} className="col-5">
               <Form.Control type="text" className="mt-1" data-bs-theme={theme ? "light" : "dark"}
               placeholder="Min"
               name="min"
@@ -38,7 +38,7 @@ const Price = () =>{
             </Col>
             
             <br/>
-            <Col md={3} lg={4} className="col-5">
+            <Col as="section" md={3} lg={4} className="col-5">
               <Form.Control type="text" className="mt-1"  data-bs-theme={theme ? "light" : "dark"}
               placeholder="Max"
               name="max"
@@ -46,7 +46,7 @@ const Price = () =>{
               onChange={(e) => setMax(e.target.value)}/>
             </Col>
 
-            <Col className="col-2">
+            <Col as="section" className="col-2">
               <Button type="submit" className="btn-danger mt-1">Filter</Button>
             </Col>
           </Row>

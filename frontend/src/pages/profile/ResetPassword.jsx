@@ -40,9 +40,9 @@ const ResetPassword = () =>{
   return(
     <>
       <MetaData title={"Reset password"}/>
-      <Container className="d-flex justify-content-center align-items-center">
-        <Row>
-          <Col className="shadow-lg mt-5">
+      <Container as="section" className="d-flex justify-content-center align-items-center">
+        <Row as="section">
+          <Col as="section" className="shadow-lg mt-5">
             <Form onSubmit={handleResetPassword} className={`${theme ? "" : "dark"}`}>
             <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="New Password">
               <Form.Control type="password"
@@ -66,7 +66,6 @@ const ResetPassword = () =>{
           </Col>
         </Row>
       </Container>
-      <div style={{ marginBottom: "7rem" }}/>
     </>
   )
 }

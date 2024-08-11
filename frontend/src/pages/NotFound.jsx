@@ -8,21 +8,21 @@ const NotFound = () =>{
   const theme = useSelector((state) => state.theme);
 
   return(
-    <div>
+    <section>
       <MetaData title={"Page Not Found"}/>
       {" "}
-      <Row>
-        <div className="d-flex justify-content-center mt-3 mt-lg-5">
+      <Row as="section">
+        <section className="d-flex justify-content-center mt-3 mt-lg-5">
           <img src={error404} alt="404 Not Found"
           height="100%"
           width="30%"/>
-        </div>
+        </section>
         <h5 className={`text-center mt-3 mt-lg-5 ${theme ? "" : "text-light"}`}>
           Page Not Found. Go to <a href="/">Homepage</a>
         </h5>
       </Row>
-      <div className="mt-2"/>
-    </div>
+      <section className="mt-2"/>
+    </section>
   )
 }
 

@@ -36,9 +36,9 @@ const ForgotPassword = () =>{
   return(
     <>
       <MetaData title={"Forgot password"}/>
-      <Container className="d-flex justify-content-center align-items-center">
-        <Row>
-          <Col className="shadow-lg mt-5">
+      <Container as="section" className="d-flex justify-content-center align-items-center">
+        <Row as="section">
+          <Col as="section" className="shadow-lg mt-5">
             <Form onSubmit={handleForgotPassword} className={`${theme ? "" : "dark"}`}>
 
             <FloatingLabel data-bs-theme={theme ? "light" : "dark"} label="Email address">
