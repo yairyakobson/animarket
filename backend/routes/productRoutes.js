@@ -18,6 +18,8 @@ router.route("/products").get(getProducts);
 router.route("/product/:id").get(getProduct);
 router.route("/product/new").post(isAuthenticatedUser, newProduct);
 
+router.route("/").post(isAuthenticatedUser);
+
 router.route("/admin/products").get(isAuthenticatedUser, authorizeRoles("Admin"), getAdminProducts);
 router.route("/admin/product/:id")
 .put(isAuthenticatedUser, authorizeRoles("Admin"), updateProduct)
