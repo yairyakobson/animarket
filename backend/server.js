@@ -3,28 +3,25 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import "colors";
 
-import { connectDB } from "./connection.js";
-import orderRoutes from "./routes/orderRoutes.js";
-import paymentRoutes from "./routes/paymentRoutes.js";
-import productRoutes from "./routes/productRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import { connectDB } from "./config/connection.js"
 import errorMiddleware from "./middlewares/errors.js";
+import router from "./routes/index.js";
 
 const app = express();
 connectDB();
 
 app.use(express.json({
   limit: "10mb",
-  verify: (req, res, buf) =>{
-    req.rawBody = buf.toString();
+  verify: (req, res, buf, encoding) =>{
+    if(buf.length > 10 * 1024 * 1024){
+      throw new Error("Request Too Large");
+    }
+    req.rawBody = buf.toString(encoding);
   }
 }));
 app.use(cookieParser());
 app.use(cors());
-app.use("/api/v1", userRoutes);
-app.use("/api/v1", productRoutes);
-app.use("/api/v1", orderRoutes);
-app.use("/api/v1", paymentRoutes);
+app.use("/api/v1", router);
 app.use(errorMiddleware);
 
 // Handle Uncaught exceptions
