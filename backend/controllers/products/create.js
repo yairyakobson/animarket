@@ -1,15 +1,16 @@
 import { upload_file } from "../../utils/cloudinary.js";
+
+import { createProduct } from "../../dataAccess/productCases.js";
 import { productCreationMail } from "../../utils/emailTemplates/productCreation.js";
 
 import asyncErrors from "../../middlewares/asyncErrors.js";
-import Product from "../../models/Product.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 import sendEmail from "../../utils/sendEmail.js";
 
 export const newProduct = asyncErrors(async(req, res, next) =>{
   let productImage = [];
   const productWithOutImages = { ...req.body, images: productImage };
-  const product = await Product.create(productWithOutImages);
+  const product = await createProduct(productWithOutImages);
 
   if(!productImage){
     return next(new ErrorHandler("Product not found", 404));

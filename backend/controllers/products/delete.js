@@ -1,13 +1,13 @@
 import { v2 as cloudinary } from "cloudinary";
 
 import { delete_file } from "../../utils/cloudinary.js";
+import { deleteSingleProduct } from "../../dataAccess/productCases.js";
 
 import asyncErrors from "../../middlewares/asyncErrors.js";
-import Product from "../../models/Product.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 
 export const deleteProduct = asyncErrors(async(req, res, next) =>{
-  const product = await Product.findById(req?.params?.id);
+  const product = await deleteSingleProduct(req?.params?.id);
 
   if(!product){
     return next(new ErrorHandler("Product Not Found", 404));

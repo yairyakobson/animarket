@@ -1,10 +1,12 @@
+import { fetchSingleProduct } from "../../dataAccess/productCases.js";
+
 import asyncErrors from "../../middlewares/asyncErrors.js";
 import Product from "../../models/Product.js";
 import APIFilters from "../../utils/apiFilters.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 
 export const getProduct = asyncErrors(async(req, res, next) =>{
-  const product = await Product.findById(req?.params?.id).populate("reviews.user");
+  const product = await fetchSingleProduct(req?.params?.id);
 
   if(!product){
     return next(new ErrorHandler("Product Not Found", 404));

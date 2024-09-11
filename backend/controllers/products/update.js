@@ -1,12 +1,14 @@
 import { v2 as cloudinary } from "cloudinary";
 
 import { delete_file, upload_file } from "../../utils/cloudinary.js";
+import { updateSingleProduct } from "../../dataAccess/productCases.js";
+
 import asyncErrors from "../../middlewares/asyncErrors.js";
 import Product from "../../models/Product.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 
 export const updateProduct = asyncErrors(async(req, res, next) =>{
-  let product = await Product.findById(req?.params?.id);
+  let product = await updateSingleProduct(req?.params?.id);
   let productImage = req.body.images;
   
   if(!product){
