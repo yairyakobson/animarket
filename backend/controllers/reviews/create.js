@@ -1,5 +1,5 @@
+import { createProductReview } from "../../dataAccess/reviewCases.js";
 import asyncErrors from "../../middlewares/asyncErrors.js";
-import Product from "../../models/Product.js";
 
 export const newProductReview = asyncErrors(async(req, res, next) =>{
   const { rating, comment, productId } = req.body;
@@ -9,7 +9,7 @@ export const newProductReview = asyncErrors(async(req, res, next) =>{
     rating: Number(rating),
     comment
   };
-  const product = await Product.findById(productId);
+  const product = await createProductReview(productId);
 
   const isReviewed = product?.reviews.find(
     (r) => r.user.toString() === req?.user?._id.toString()

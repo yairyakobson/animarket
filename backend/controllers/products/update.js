@@ -1,11 +1,12 @@
 import { delete_file, upload_file } from "../../utils/aws.js";
+import { updateSingleProduct } from "../../dataAccess/productCases.js";
 
 import asyncErrors from "../../middlewares/asyncErrors.js";
 import Product from "../../models/Product.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 
 export const updateProduct = asyncErrors(async(req, res, next) =>{
-  let product = await Product.findById(req.params.id);
+  let product = await updateSingleProduct(req.params.id);
   let productImage = req.body.images;
   
   if(!product){
@@ -23,7 +24,7 @@ export const updateProduct = asyncErrors(async(req, res, next) =>{
   const uploader = async(image) =>{
     const buffer = Buffer.from(image.split(",")[1], "base64");
     const mimeType = image.match(/^data:(image\/\w+);base64,/)[1];
-    const folder = productImage.length > 1 ? `Products/${product.seller}_${product.name}_${product._id}` : "Products";
+    const folder = productImage.length > 1 ? `Products/${product.seller}_${product.name}` : "Products";
     const extension = mimeType.split('/')[1];
     const fileName = `${product.seller}_${product.name}_${product._id}.${extension}`;
 

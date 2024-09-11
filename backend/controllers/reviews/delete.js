@@ -1,9 +1,10 @@
+import { deleteSingleProductReview } from "../../dataAccess/reviewCases.js";
 import asyncErrors from "../../middlewares/asyncErrors.js";
 import Product from "../../models/Product.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 
 export const deleteProductReview = asyncErrors(async(req, res, next) =>{
-  let product = await Product.findById(req.query.productId);
+  let product = await deleteSingleProductReview(req.query.productId);
 
   if(!product){
     return next(new ErrorHandler("Product not found", 404));

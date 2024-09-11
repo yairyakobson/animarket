@@ -1,10 +1,10 @@
 import mime from "mime-types";
 
 import { upload_file } from "../../utils/aws.js";
+import { createProduct } from "../../dataAccess/productCases.js";
 import { productCreationMail } from "../../utils/emailTemplates/productCreation.js";
 
 import asyncErrors from "../../middlewares/asyncErrors.js";
-import Product from "../../models/Product.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 import sendEmail from "../../utils/sendEmail.js";
 
@@ -44,7 +44,7 @@ export const newProduct = asyncErrors(async (req, res, next) =>{
     }));
 
     const newProductData = { ...productData, images: productImage };
-    const product = await Product.create(newProductData);
+    const product = await createProduct(newProductData);
     res.status(200).json({ product });
 
     // Send email notification
