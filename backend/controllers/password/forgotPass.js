@@ -1,13 +1,13 @@
 import { resetPasswordMail } from "../../utils/emailTemplates/resetPassword.js";
+import { findUserPassword } from "../../dataAccess/passwordCases.js";
 
 import asyncErrors from "../../middlewares/asyncErrors.js";
-import User from "../../models/User.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 import sendToken from "../../utils/jwtToken.js"
 import sendEmail from "../../utils/sendEmail.js";
 
 export const forgotPassword = asyncErrors(async(req, res, next) =>{
-  const user = await User.findOne({ email: req.body.email });
+  const user = await findUserPassword({ email: req.body.email });
 
   if(!user){
     return next(new ErrorHandler("User not found with this email", 404));
