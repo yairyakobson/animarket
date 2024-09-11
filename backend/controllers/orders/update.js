@@ -1,11 +1,11 @@
+import { updateOrderStatus } from "../../dataAccess/orderCases.js";
 import asyncErrors from "../../middlewares/asyncErrors.js";
 
-import Order from "../../models/Order.js";
 import Product from "../../models/Product.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 
 export const updateOrder = asyncErrors(async(req, res, next) =>{
-  const order = await Order.findById(req.params.id);
+  const order = await updateOrderStatus(req.params.id);
 
   if(!order){
     return next(new ErrorHandler("No Order found with this ID", 404));

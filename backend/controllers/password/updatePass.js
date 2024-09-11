@@ -1,13 +1,13 @@
 import { updatePasswordMail } from "../../utils/emailTemplates/updatePassword.js";
+import { updateResettedPassword } from "../../dataAccess/passwordCases.js";
 
-import User from "../../models/User.js";
 import asyncErrors from "../../middlewares/asyncErrors.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 import sendToken from "../../utils/jwtToken.js";
 import sendEmail from "../../utils/sendEmail.js";
 
 export const updatePassword = asyncErrors(async(req, res, next) =>{
-  const user = await User.findById(req?.user?._id).select("+password");
+  const user = await updateResettedPassword(req?.user?._id);
   const isMatchedPass = await user.comparePassword(req.body.oldPassword);
   
   if(!isMatchedPass){

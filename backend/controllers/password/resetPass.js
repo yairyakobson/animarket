@@ -1,13 +1,13 @@
 import crypto from "crypto";
 
+import { resetUserPassword } from "../../dataAccess/passwordCases.js";
 import asyncErrors from "../../middlewares/asyncErrors.js";
-import User from "../../models/User.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 import sendToken from "../../utils/jwtToken.js";
 
 export const resetPassword = asyncErrors(async(req, res, next) =>{
   const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
-  const user = await User.findOne({
+  const user = await resetUserPassword({
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() }
   });
