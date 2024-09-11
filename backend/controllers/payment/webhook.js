@@ -1,8 +1,8 @@
 import Stripe from "stripe";
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
+import { stripeOrder } from "../../dataAccess/paymentCases.js";
 import asyncErrors from "../../middlewares/asyncErrors.js";
-import Order from "../../models/Order.js";
 
 const getOrderItems = async(line_items) =>{
   return new Promise((resolve, reject) =>{
@@ -70,7 +70,7 @@ export const webhook = asyncErrors(async(req, res, next) =>{
         paymentMethod: "Card",
         user,
       };
-      await Order.create(orderData);
+      await stripeOrder(orderData);
       res.status(200).json({ success: true });
     }
   }
