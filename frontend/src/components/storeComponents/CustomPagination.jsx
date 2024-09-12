@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
 
 const CustomPagination = ({ resPerPage, filterProductsCount }) =>{
-  const[currentPage, setCurrentPage] = useState();
+  const currentPageRef = useRef();
   const navigate = useNavigate();
   const theme = useSelector((state) => state.theme);
 
@@ -12,11 +12,11 @@ const CustomPagination = ({ resPerPage, filterProductsCount }) =>{
   const page = Number(searchParams.get("page")) || 1;
 
   useEffect(() =>{
-    setCurrentPage(page);
+    currentPageRef.current = page;
   },[page])
 
   const setCurrentPageNo = (pageNumber)=>{
-    setCurrentPage(pageNumber);
+    currentPageRef.current = pageNumber;
 
     if(searchParams.has("page")){
       searchParams.set("page", pageNumber);
@@ -32,7 +32,7 @@ const CustomPagination = ({ resPerPage, filterProductsCount }) =>{
     <section className="d-flex justify-content-center my-3">
       {filterProductsCount > resPerPage && (
       <Pagination
-      activePage={currentPage}
+      activePage={currentPageRef.current}
       itemsCountPerPage={resPerPage}
       totalItemsCount={filterProductsCount}
       onChange={setCurrentPageNo}

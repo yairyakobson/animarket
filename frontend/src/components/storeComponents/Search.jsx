@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 
 const Search = () =>{
-  const [keyword, setKeyword] = useState("");
+  const keywordRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,8 +17,8 @@ const Search = () =>{
   const searchHandler = (e) =>{
     e.preventDefault();
 
-    if(keyword?.trim()){
-      navigate(`/search/?keyword=${keyword}`);
+    if(keywordRef.current?.trim()){
+      navigate(`/search/?keyword=${keywordRef.current}`);
     }
     else{
       navigate("/");
@@ -30,8 +30,7 @@ const Search = () =>{
       <InputGroup as="section">
         <Form.Control type="text" id="search_field" className="border-0"
         placeholder="Search"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
+        onChange={(e) => (keywordRef.current = e.target.value)}
         hidden={hiddenCondition}/>
         <section>
           <Button className="border-danger btn-danger" onClick={searchHandler}
