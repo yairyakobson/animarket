@@ -1,58 +1,93 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Alert, Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { toast } from "sonner";
 
-import { useUpdateProfileMutation } from "../../redux/services/userApi";
+import { useGetCurrentUserQuery, useUpdateProfileMutation } from "../../redux/services/userApi";
+import { useOptimisticUpdate } from "../../hooks/useOptimisticUpdate";
+
 import profilepic from "../../assets/add.png";
 import MetaData from "../../components/MetaData";
 import UserSidebar from "../../components/storeComponents/UserSidebar";
 
 const UpdateProfile = () =>{
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [img, setImg] = useState("");
-  const [imgPreview, setImgPreview] = useState(profilepic);
-  const [updatedImg, setUpdatedImg] = useState(false);
+  const updateUserRef = useRef({
+    name: "",
+    email: ""
+  });
+  const [imageData, setImageData] = useState({
+    img: "",
+    imgPreview: profilepic,
+    updatedImg: false,
+  });
+  const { img, imgPreview, updatedImg } = imageData;
 
   const theme = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
-  const [updateProfile, { isLoading, isSuccess, error }] = useUpdateProfileMutation();
+  const { refetch: refetchUser } = useGetCurrentUserQuery();
+  const [updateProfile, { isLoading, error }] = useUpdateProfileMutation();
 
   const navigate = useNavigate();
 
+  const { optimisticUser, handleOptimisticUpdate, isPending } = useOptimisticUpdate(
+    updateProfile,
+    refetchUser
+  );
+
   const validateImage = (e) =>{
     const reader = new FileReader();
-    const formData = new FormData();
-    formData.append("file", img);
 
     reader.onload = () =>{
       if(reader.readyState === 2){
-        setImg(reader.result);
-        setUpdatedImg(reader.result);
+        setImageData((prevState) =>({
+          ...prevState,
+          img: reader.result,
+          updatedImg: reader.result,
+        }));
       }
     };
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(e.target.files[0]);;
   }
 
   useEffect(() =>{
     if(user){
-      setName(user?.name);
-      setEmail(user?.email);
-      setImgPreview(user?.picture?.url);
+      updateUserRef.current.name = user?.name;
+      updateUserRef.current.email = user?.email;
+      setImageData((prevState) =>({
+        ...prevState,
+        imgPreview: user?.picture?.url,
+      }));
     }
-    if(isSuccess){
-      toast.success("User Updated");
-      navigate("/profile/my_profile");
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[user, isSuccess]);
+  },[user]);
 
-  const handleUpdate = (e) =>{
+  useEffect(() =>{
+    if(optimisticUser){
+      updateUserRef.current.name = optimisticUser?.name;
+      updateUserRef.current.email = optimisticUser?.email;
+      setImageData((prevState) =>({
+        ...prevState,
+        imgPreview: optimisticUser?.picture?.url,
+      }));
+    }
+  },[optimisticUser]);
+
+  const handleUpdate = async(e) =>{
     e.preventDefault();
-    const data = { name, email, picture: img }
-    updateProfile(data);
+    const data = {
+      name: updateUserRef.current.name,
+      email: updateUserRef.current.email,
+      picture: img
+    }
+    try{
+      await handleOptimisticUpdate(data, user, imgPreview, () => {
+        toast.success("User Updated");
+        navigate("/profile/my_profile");
+      });
+    }
+    catch(error){
+      toast.error(error?.data?.message);
+    }
   }
 
   return(
@@ -77,20 +112,20 @@ const UpdateProfile = () =>{
                 <Form.Control type="text"
                 name="name"
                 placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}/>
+                defaultValue={updateUserRef.current.name}
+                onChange={(e) => updateUserRef.current.name = e.target.value}/>
               </FloatingLabel>
 
               <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Email address">
                 <Form.Control type="email"
                 name="email"
                 placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}/>
+                defaultValue={updateUserRef.current.email}
+                onChange={(e) => updateUserRef.current.email = e.target.value}/>
               </FloatingLabel>
 
               <Button type="submit" className="btn-danger mt-5"
-              disabled={!name || !email}>{isLoading ? "Updating..." : "Update"}</Button>
+              disabled={isLoading || isPending}>{isLoading ? "Updating..." : "Update"}</Button>
             </Form>
           </Col>
         </Row>
