@@ -17,10 +17,12 @@ export const updatePassword = asyncErrors(async(req, res, next) =>{
   if(req.body.oldPassword === req.body.password){
     return next(new ErrorHandler("New password must be different", 400));
   }
-
-  const message = updatePasswordMail(user?.name);
+  user.password = req.body.password;
 
   try{
+    await user.save();
+    const message = updatePasswordMail(user?.name);
+    
     await sendEmail({
       email: user.email,
       subject: "Animarket Password Update",
@@ -32,8 +34,6 @@ export const updatePassword = asyncErrors(async(req, res, next) =>{
    });
   }
   catch(error){
-    await user.save();
-    user.password = req.body.password;
     return next(new ErrorHandler(error?.message, 500));
   }
   sendToken(user, 200, res);
