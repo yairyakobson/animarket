@@ -94,8 +94,7 @@ const Payment = () =>{
                   <Form.Check.Input type="radio" data-bs-theme={theme ? "light" : "dark"}
                   name="payment_mode"
                   value="Card"
-                  onChange={() => setMethod("Card")}
-                  disabled/>
+                  onChange={() => setMethod("Card")}/>
                   <Form.Check.Label>Card - VISA, MasterCard - Currently Disabled</Form.Check.Label>
                   {method === "Card" && <p className="text-warning">Stock will change when the order is successfully delivered</p>}
                 </Form.Check>

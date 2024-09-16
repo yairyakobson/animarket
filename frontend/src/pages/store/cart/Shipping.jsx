@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Container, FloatingLabel, Form, Row } from "react-bootstrap";
@@ -9,11 +9,15 @@ import Checkout from "./Checkout";
 import MetaData from "../../../components/MetaData";
 
 const Shipping = () =>{
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [country, setCountry] = useState("");
+  const shippingRef = useRef({
+    address: "",
+    city: "",
+    zipCode: "",
+    phoneNumber: "",
+    country: "",
+  });
+  const [, forceRender] = useState(0);
+  console.log(shippingRef.current);
 
   const countriesList = Object.values(countries);
 
@@ -26,19 +30,24 @@ const Shipping = () =>{
 
   useEffect(() =>{
     if(shippingInfo){
-      setAddress(shippingInfo?.address);
-      setCity(shippingInfo?.city);
-      setZipCode(shippingInfo?.zipCode);
-      setPhoneNumber(shippingInfo?.phoneNumber);
-      setCountry(shippingInfo?.country);
+      shippingRef.current.address = shippingInfo?.address || "";
+      shippingRef.current.city = shippingInfo?.city || "";
+      shippingRef.current.zipCode = shippingInfo?.zipCode || "";
+      shippingRef.current.phoneNumber = shippingInfo?.phoneNumber || "";
+      shippingRef.current.country = shippingInfo?.country || "";
+      forceRender((prev) => prev + 1); // Force a re-render to reflect the changes in the form
     }
   }, [shippingInfo]);
 
   const shippingHandler = (e) =>{
     e.preventDefault();
-    dispatch(saveShippingInfo({ address, city, zipCode, phoneNumber, country }));
+    dispatch(saveShippingInfo(shippingRef.current));
     navigate("/order/confirm");
   }
+
+  const handleChange = (field) => (e) =>{
+    shippingRef.current[field] = e.target.value;
+  };
 
   return(
     <>
@@ -52,36 +61,36 @@ const Shipping = () =>{
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Address">
                   <Form.Control type="text"
                   placeholder="Address"
-                  value={address || ""}
-                  onChange={(e) => setAddress(e.target.value)}/>
+                  value={shippingRef.current.address}
+                  onChange={handleChange("address")}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="City">
                   <Form.Control type="text"
                   placeholder="City"
-                  value={city || ""}
-                  onChange={(e) => setCity(e.target.value)}/>
+                  value={shippingRef.current.city}
+                  onChange={handleChange("city")}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Zip Code">
                   <Form.Control type="number"
                   placeholder="Zip Code"
-                  value={zipCode || ""}
-                  onChange={(e) => setZipCode(e.target.value)}/>
+                  value={shippingRef.current.zipCode}
+                  onChange={handleChange("zipCode")}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Phone Number">
                   <Form.Control type="number"
                   placeholder="Phone Number"
-                  value={phoneNumber || ""}
-                  onChange={(e) => setPhoneNumber(e.target.value)}/>
+                  value={shippingRef.current.phoneNumber}
+                  onChange={handleChange("phoneNumber")}/>
                 </FloatingLabel>
 
                 <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Country">
                   <Form.Select
                   name="country"
-                  value={country || ""}
-                  onChange={(e) => setCountry(e.target.value)}>
+                  value={shippingRef.current.country}
+                  onChange={handleChange("country")}>
                   {countriesList?.map((country) => (
                     <option key={country?.name} value={country?.name}>{country?.name}</option>
                   ))}

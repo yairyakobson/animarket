@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Alert, Button, Container, Col, FloatingLabel, Form, Row } from "react-bootstrap";
@@ -10,12 +10,13 @@ import profilepic from "../assets/add.png";
 import "./styles/RegisterStyle.css";
 
 const Register = () =>{
-  const [data, setData] = useState({
+  const registerFormRef = useRef({
     name: "",
     email: "",
     password: ""
   });
-  const { name, email, password } = data
+  const { name, email, password } = registerFormRef.current;
+
   const [img, setImg] = useState("");
   const [imgPreview, setImgPreview] = useState(null);
   
@@ -24,10 +25,6 @@ const Register = () =>{
   const theme = useSelector((state) => state.theme);
   const { isAuthenticated } = useSelector((state) => state.user);
   const [regUser, { error, isLoading }] = useRegUserMutation();
-
-  const dataHandler = (e) =>{
-    setData({ ...data, [e.target.name]: e.target.value });
-  }
 
   const validateImage = (e) =>{
     const reader = new FileReader();
@@ -55,7 +52,12 @@ const Register = () =>{
     e.preventDefault();
     toast.loading("Loading...");
 
-    const data = { name, email, password, picture: img }
+    const data = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      picture: img
+    }
     regUser(data)
     .then(({ data }) =>{
       if(data){
@@ -93,24 +95,21 @@ const Register = () =>{
               <Form.Control type="text"
               name="name"
               placeholder="Name"
-              value={name}
-              onChange={dataHandler}/>
+              ref={(name) => (registerFormRef.current.name = name)}/>
             </FloatingLabel>
 
             <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Email address">
               <Form.Control type="email"
               name="email"
               placeholder="Email Address"
-              value={email}
-              onChange={dataHandler}/>
+              ref={(email) => (registerFormRef.current.email = email)}/>
             </FloatingLabel>
 
             <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Password">
               <Form.Control type="password"
               name="password"
               placeholder="Password"
-              value={password}
-              onChange={dataHandler}/>
+              ref={(password) => (registerFormRef.current.password = password)}/>
             </FloatingLabel>
 
             <Button type="submit" className="btn-danger mt-5"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Col, Container, FloatingLabel, Form, Row } from "react-bootstrap";
@@ -8,8 +8,8 @@ import { useResetPasswordMutation } from "../../redux/services/userApi";
 import MetaData from "../../components/MetaData";
 
 const ResetPassword = () =>{
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const newPasswordRef = useRef("");
+  const confirmPasswordRef = useRef("");
 
   const navigate = useNavigate();
   const params = useParams();
@@ -31,10 +31,13 @@ const ResetPassword = () =>{
   const handleResetPassword = (e) =>{
     e.preventDefault();
 
-    if(password !== confirmPassword){
+    const newPassword = newPasswordRef.current.value;
+    const confirmPassword = confirmPasswordRef.current.value;
+
+    if(newPassword !== confirmPassword){
       return toast.error("Password doesn't match. Try again");
     }
-    const data = { password: password, confirmPassword: confirmPassword }
+    const data = { password: newPassword, confirmPassword: confirmPassword };
     resetPassword({ token: params?.token, body: data });
   };
   return(
@@ -48,20 +51,18 @@ const ResetPassword = () =>{
               <Form.Control type="password"
               name="password"
               placeholder="New Password"
-              value={password}
-              onChange={(e) =>setPassword(e.target.value)}/>
+              ref={newPasswordRef}/>
             </FloatingLabel>
 
             <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Confirm Password">
               <Form.Control type="password"
               name="password"
               placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}/>
+              ref={confirmPasswordRef}/>
             </FloatingLabel>
 
               <Button type="submit" className="btn-danger mt-3"
-              disabled={!password || !confirmPassword || isLoading}>{isLoading ? "Resetting" : "Reset"}</Button>
+              disabled={isLoading}>{isLoading ? "Resetting" : "Reset"}</Button>
             </Form>
           </Col>
         </Row>

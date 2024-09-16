@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
@@ -12,7 +12,7 @@ import UserSidebar from "../../components/storeComponents/UserSidebar";
 
 const NewProduct = () =>{
   const { user } = useSelector((state) => state.user);
-  const [product, setProduct] = useState({
+  const productRef = useRef({
     name: "",
     description: "",
     price: "",
@@ -21,7 +21,9 @@ const NewProduct = () =>{
     stock: "",
     condition: ""
   });
+  const { current: product } = productRef;
   const { name, description, price, category, stock, condition } = product;
+
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
@@ -30,8 +32,8 @@ const NewProduct = () =>{
   const theme = useSelector((state) => state.theme);
   const [createProduct, { error, isLoading, isSuccess }] = useCreateProductMutation();
 
-  const productDataHandler = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
+  const productDataHandler = (e) =>{
+    productRef.current = { ...productRef.current, [e.target.name]: e.target.value };
   };
 
   const validateProductImage = (e) =>{
@@ -80,7 +82,7 @@ const NewProduct = () =>{
                 <Form.Control type="text"
                 name="name"
                 placeholder="Product Name"
-                value={name}
+                defaultValue={name}
                 onChange={productDataHandler}/>
               </FloatingLabel>
 
@@ -89,7 +91,7 @@ const NewProduct = () =>{
                 rows={8}
                 name="description"
                 placeholder="Description"
-                value={description}
+                defaultValue={description}
                 onChange={productDataHandler}/>
 
               <Row as="section">
@@ -98,7 +100,7 @@ const NewProduct = () =>{
                   <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                   name="price"
                   placeholder="Price"
-                  value={price}
+                  defaultValue={price}
                   onChange={productDataHandler}/>
                 </Col>
 
@@ -107,7 +109,7 @@ const NewProduct = () =>{
                   <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                   name="stock"
                   placeholder="Stock"
-                  value={stock}
+                  defaultValue={stock}
                   onChange={productDataHandler}/>
                 </Col>
               </Row>
@@ -116,7 +118,7 @@ const NewProduct = () =>{
                 <Form.Select
                 data-bs-theme={theme ? "light" : "dark"}
                 name="category"
-                value={category}
+                defaultValue={category}
                 onChange={productDataHandler}>
                 {PRODUCT_CATEGORIES?.map((category) =>(
                   <option key={category} value={category}>{category ? category : ""}</option>
@@ -127,7 +129,7 @@ const NewProduct = () =>{
               <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Condition">
                 <Form.Select
                 name="condition"
-                value={condition}
+                defaultValue={condition}
                 onChange={productDataHandler}>
                 {PRODUCT_CONDITION?.map((condition) =>(
                   <option key={condition} value={condition}>{condition}</option>
