@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Container, FloatingLabel, Form, Row } from "react-bootstrap";
@@ -8,7 +8,7 @@ import { useForgotPasswordMutation } from "../../redux/services/userApi";
 import MetaData from "../../components/MetaData";
 
 const ForgotPassword = () =>{
-  const [email, setEmail] = useState("");
+  const emailRef = useRef("");
 
   const navigate = useNavigate();
 
@@ -31,8 +31,10 @@ const ForgotPassword = () =>{
 
   const handleForgotPassword = (e) =>{
     e.preventDefault();
+    const email = emailRef.current.value;
     forgotPassword({ email });
   };
+  
   return(
     <>
       <MetaData title={"Forgot password"}/>
@@ -45,12 +47,11 @@ const ForgotPassword = () =>{
               <Form.Control type="email"
               name="email"
               placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}/>
+              ref={emailRef}/>
             </FloatingLabel>
 
             <Button type="submit" className="btn-danger mt-4"
-            disabled={!email || isLoading}>{isLoading ? "Sending" : "Send"}</Button>
+            disabled={isLoading}>{isLoading ? "Sending" : "Send"}</Button>
 
             </Form>
           </Col>

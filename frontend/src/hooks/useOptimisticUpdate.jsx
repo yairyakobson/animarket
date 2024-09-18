@@ -1,3 +1,22 @@
+/*
+  useTransition: For smooth transitions during optimistic update
+  optimisticUser: Hold the optimistic user state
+  
+  handleOptimisticUpdate: The function executed
+  when we optimistically update the UI
+  using startTransition coming from the useTransition hook
+
+  ...data: Displays new data
+  picture: Set new picture preview
+
+  try-catch block:
+  1. Starts with an API call of the mutation to update the user profile
+  2. Refetch the updated user data and dispatch it to Redux
+  3. dispatch(setUser(data)); // Updates the state with new user data
+  4. The catch block reverts back to the original data in case an error occurs
+*/
+
+
 import { useState, useTransition } from "react";
 import { useDispatch } from "react-redux";
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { toast } from "sonner";
 import DatePicker from "react-datepicker";
@@ -10,8 +10,9 @@ import SalesChart from "../../components/storeComponents/SalesChart";
 import MetaData from "../../components/MetaData";
 
 const Dashboard = () =>{
-  const [startDate, setStartDate] = useState(new Date().setDate(1));
-  const [endDate, setEndDate] = useState(new Date());
+  const [, setForceUpdate] = useState(false);
+  const startDateRef = useRef(new Date().setDate(1));
+  const endDateRef = useRef(new Date());
 
   const [getDashboardSales, { error, data }] = useLazyGetDashboardSalesQuery();
 
@@ -20,21 +21,23 @@ const Dashboard = () =>{
       toast.error(error?.data?.message);
     }
 
-    if(startDate && endDate && !data){
+    if(startDateRef.current && endDateRef.current && !data){
       getDashboardSales({
-        startDate: new Date(startDate).toISOString(),
-        endDate: endDate.toISOString()
+        startDate: new Date(startDateRef.current).toISOString(),
+        endDate: endDateRef.current.toISOString()
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data, error, getDashboardSales]);
 
   const salesHandler = () =>{
     getDashboardSales({
-      startDate: new Date(startDate).toISOString(),
-      endDate: endDate.toISOString()
+      startDate: new Date(startDateRef.current).toISOString(),
+      endDate: endDateRef.current.toISOString()
     });
   }
+
+  // Function to trigger component re-render
+  const triggerRender = () => setForceUpdate((prev) => !prev);
 
   return(
     <AdminSidebar>
@@ -44,22 +47,28 @@ const Dashboard = () =>{
           <DatePicker
           className="mt-2 mt-md-3 mt-lg-0"
           dateFormat={"MMMM dd, yyyy"}
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
+          selected={startDateRef.current}
+          onChange={(date) => {
+            startDateRef.current = date;
+            triggerRender(); // Trigger a re-render when date changes
+          }}
           selectsStart
-          startDate={startDate}
-          endDate={endDate}/>
+          startDate={startDateRef.current}
+          endDate={endDateRef.current}/>
         </section>
         <section className="mb-2">
           <DatePicker
           className="mt-2 mt-md-3 mt-lg-0"
           dateFormat={"MMMM dd, yyyy"}
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
+          selected={endDateRef.current}
+          onChange={(date) => {
+            endDateRef.current = date;
+            triggerRender(); // Trigger a re-render when date changes
+          }}
           selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={startDate}/>
+          startDate={startDateRef.current}
+          endDate={endDateRef.current}
+          minDate={startDateRef.current}/>
         </section>
 
         <Button variant="danger" className="mt-2 mt-md-2 mt-lg-0 ms-md-4 ms-lg-4"

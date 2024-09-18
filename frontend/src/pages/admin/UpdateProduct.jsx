@@ -11,15 +11,19 @@ import AdminSidebar from "../../components/storeComponents/AdminSidebar";
 import MetaData from "../../components/MetaData";
 
 const UpdateProduct = () =>{
-  const [product, setProduct] = useState({
+  const imgRef = useRef(null);
+  const productRef = useRef({
     price: "",
     stock: ""
   });
-  const { price, stock } = product;
-  const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const imgRef = useRef(null);
+  const { price, stock } = productRef.current;
+
+  const [imageData, setImageData] = useState({
+    images: [],
+    imagesPreview: [],
+    uploadedImages: []
+  });
+  const { images, imagesPreview, uploadedImages } = imageData;
 
   const navigate = useNavigate();
   const params = useParams();
@@ -28,8 +32,8 @@ const UpdateProduct = () =>{
   const { data } = useGetProductDetailsQuery(params?.id);
   const [updateProduct, { error, isLoading, isSuccess }] = useUpdateProductMutation();
 
-  const productDataHandler = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
+  const productDataHandler = (e) =>{
+    productRef.current = { ...productRef.current, [e.target.name]: e.target.value };
   };
 
   const validateProductImage = (e) =>{
@@ -40,20 +44,25 @@ const UpdateProduct = () =>{
 
       reader.onload = () =>{
         if(reader.readyState === 2){
-          setImages((oldArray) =>[...oldArray, reader.result]);
-          setImagesPreview((oldArray) =>[...oldArray, reader.result]);
+          setImageData((prevData) =>({
+            ...prevData,
+            images: [...prevData.images, reader.result],
+            imagesPreview: [...prevData.imagesPreview, reader.result]
+          }));
         }
       };
-
       reader.readAsDataURL(file);
     });
   }
 
   const handleImages = (image) =>{
-    const filteredImages = imagesPreview.filter(img => img !== image);
-    setImagesPreview(filteredImages);
-    setImages(filteredImages);
-  }
+    const filteredImages = imageData.imagesPreview.filter((img) => img !== image);
+    setImageData((prevData) =>({
+      ...prevData,
+      imagesPreview: filteredImages,
+      images: filteredImages
+    }));
+  };
 
   const resetImagesHandler = () =>{
     if(imgRef.current){
@@ -63,13 +72,16 @@ const UpdateProduct = () =>{
 
   useEffect(() =>{
     if(data?.product){
-      setProduct({
-        name: data?.product?.name,
-        price: data?.product?.price,
-        stock: data?.product?.stock,
+      productRef.current.price = data?.product?.price;
+      productRef.current.stock = data?.product?.stock;
+
+      setImageData({
+        images: [],
+        imagesPreview: [],
+        uploadedImages: data?.product?.images
       });
-      setUploadedImages(data?.product?.images);
     }
+
     if(error){
       toast.error(error?.data?.message);
     }
@@ -81,9 +93,12 @@ const UpdateProduct = () =>{
 
   const updateProductHandler = (e) =>{
     e.preventDefault();
-    const productWithImages = { ...product, images }
-    updateProduct({ id: params?.id, body: productWithImages });
-    console.log(productWithImages);
+    const updatedProduct = {
+      price: price,
+      stock: stock,
+      images: images
+    };
+    updateProduct({ id: params?.id, body: updatedProduct });
   };
 
   return(
@@ -99,7 +114,7 @@ const UpdateProduct = () =>{
                   <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Price">
                     <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                     name="price"
-                    value={price}
+                    defaultValue={price}
                     onChange={productDataHandler}/>  
                   </FloatingLabel>
                 </Col>
@@ -108,7 +123,7 @@ const UpdateProduct = () =>{
                   <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Stock">
                     <Form.Control type="number" data-bs-theme={theme ? "light" : "dark"}
                     name="stock"
-                    value={stock}
+                    defaultValue={stock}
                     onChange={productDataHandler}/>  
                   </FloatingLabel>
                 </Col>
@@ -123,7 +138,7 @@ const UpdateProduct = () =>{
                 multiple/>
               </Form.Group>
               
-              {imagesPreview?.length > 0 && (
+              {imagesPreview.length > 0 && (
                 <section className="my-4">
                   <p className="text-black">New Images:</p>
                   <Row as="section">
@@ -148,7 +163,7 @@ const UpdateProduct = () =>{
                 </section>
               )}
 
-              {uploadedImages?.length > 0 && (
+              {uploadedImages.length > 0 && (
                 <section className="my-4">
                   <p className="text-success">Current Product Images:</p>
                   <Row as="section">

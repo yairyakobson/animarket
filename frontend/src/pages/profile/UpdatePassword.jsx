@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Alert, Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
@@ -9,8 +9,8 @@ import MetaData from "../../components/MetaData";
 import UserSidebar from "../../components/storeComponents/UserSidebar";
 
 const UpdatePassword = () =>{
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const oldPasswordRef = useRef("");
+  const newPasswordRef = useRef("");
 
   const theme = useSelector((state) => state.theme);
   const [updatePassword, { isLoading, error, isSuccess }] = useUpdatePasswordMutation();
@@ -27,7 +27,10 @@ const UpdatePassword = () =>{
 
   const handlePasswordUpdate = (e) =>{
     e.preventDefault();
-    const data = { oldPassword: oldPassword, password: newPassword }
+    const oldPassword = oldPasswordRef.current.value;
+    const newPassword = newPasswordRef.current.value;
+
+    const data = { oldPassword: oldPassword, newPassword: newPassword };
     updatePassword(data);
   }
 
@@ -43,20 +46,18 @@ const UpdatePassword = () =>{
                 <Form.Control type="password"
                 name="password"
                 placeholder="Password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}/>
+                ref={oldPasswordRef}/>
               </FloatingLabel>
                     
               <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="New Password">
                 <Form.Control type="password"
                 name="password"
                 placeholder="Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}/>
+                ref={newPasswordRef}/>
               </FloatingLabel>
 
               <Button type="submit" className="btn-danger mt-3"
-              disabled={!oldPassword || !newPassword}>{isLoading ? "Updating..." : "Update"}</Button>
+              disabled={isLoading}>{isLoading ? "Updating..." : "Update"}</Button>
             </Form>
           </Col>
         </Row>

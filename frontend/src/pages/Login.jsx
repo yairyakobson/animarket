@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Container, Col, FloatingLabel, Form, Row, Alert } from "react-bootstrap";
@@ -8,45 +8,41 @@ import { useLogUserMutation } from "../redux/services/authApi";
 import MetaData from "../components/MetaData";
 
 const Login = () =>{
-  const [data, setData] = useState({
+  const loginFormRef = useRef({
     email: "",
     password: ""
- });
- const { email, password } = data
+  });
+  const { email, password } = loginFormRef.current;
+  const navigate = useNavigate();
 
- const navigate = useNavigate();
+  const theme = useSelector((state) => state.theme);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const [logUser, { error, isLoading }] = useLogUserMutation();
 
- const theme = useSelector((state) => state.theme);
- const { isAuthenticated, user } = useSelector((state) => state.user);
- const [logUser, { error, isLoading }] = useLogUserMutation();
+  useEffect(() =>{
+    if(isAuthenticated){
+      toast.success(`Welcome Back ${user?.name}`, {
+        duration: 1500
+      });
+      navigate("/");
+      toast.dismiss();
+    }
+    else if(error){
+      toast.dismiss();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
- const dataHandler=({ currentTarget: input }) =>{
-   setData({ ...data, [input.name]: input.value });
- }
+  const handleLogin = (e) =>{
+    e.preventDefault();
 
- useEffect(() =>{
-  if(isAuthenticated){
-    toast.success(`Welcome Back ${user?.name}`, {
-      duration: 1500
+    toast.loading("Loading...");
+    logUser({ email: email.value, password: password.value })
+    .unwrap()
+    .catch(() =>{
+      toast.dismiss();
     });
-    navigate("/");
-    toast.dismiss();
   }
-  else if(error){
-    toast.dismiss();
-  }
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [isAuthenticated]);
-
- const handleLogin = (e) =>{
-   e.preventDefault();
-   toast.loading("Loading...");
-   logUser({ email, password })
-   .unwrap()
-   .catch(() =>{
-     toast.dismiss();
-   });
- }
 
   return(
     <>
@@ -61,16 +57,14 @@ const Login = () =>{
                 <Form.Control type="email"
                 name="email"
                 placeholder="Email Address"
-                value={email}
-                onChange={dataHandler}/>
+                ref={(email) => (loginFormRef.current.email = email)}/>
               </FloatingLabel>
 
               <FloatingLabel className="mt-4" data-bs-theme={theme ? "light" : "dark"} label="Password">
                 <Form.Control type="password"
                 name="password"
                 placeholder="Password"
-                value={password}
-                onChange={dataHandler}/>
+                ref={(password) => (loginFormRef.current.password = password)}/>
               </FloatingLabel>
 
               <Button type="submit" className="btn-danger mt-3"

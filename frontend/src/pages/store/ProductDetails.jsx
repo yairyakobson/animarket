@@ -91,7 +91,7 @@ const ProductDetails = () =>{
              <Row as="section" className="justify-content-start mt-2">
                {product?.images?.map((img) =>(
                  <Col as="section" md={3} lg={3} className="col-5 ms-3" key={img?._id}>
-                   <a role="button">
+                   <Button as="a" className="bg-transparent border-0">
                      <img className={`d-block border rounded p-3 p-lg-2 cursor-pointer ${
                      img.url === activeImg && "border-danger"}`}
                      height="100"
@@ -99,7 +99,7 @@ const ProductDetails = () =>{
                      src={img?.url}
                      alt={img?.url}
                      onClick={() => setActiveImg(img.url)}/>
-                   </a>
+                   </Button>
                  </Col>
                ))}
              </Row>

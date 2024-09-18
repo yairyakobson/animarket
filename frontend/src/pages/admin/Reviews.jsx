@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Button, Container, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { MDBDataTableV5 } from "mdbreact";
@@ -10,11 +10,15 @@ import AdminSidebar from "../../components/storeComponents/AdminSidebar";
 import MetaData from "../../components/MetaData";
 
 const Reviews = () =>{
-  const [productId, setProductId] = useState("");
+  const productIdRef = useRef("");
 
   const theme = useSelector((state) => state.theme);
   const [getProductReviews, { data, error }] = useLazyGetProductReviewsQuery();
-  const [deleteProductReview, { error: deleteError, isLoading: isDeleteLoading, isSuccess }] = useDeleteProductReviewMutation()
+  const [deleteProductReview, {
+    error: deleteError,
+    isLoading: isDeleteLoading,
+    isSuccess
+  }] = useDeleteProductReviewMutation();
 
   useEffect(() =>{
     if(error){
@@ -56,7 +60,7 @@ const Reviews = () =>{
     };
 
     const deleteReviewHandler = (id) =>{
-      deleteProductReview({ productId, id });
+      deleteProductReview({ productIdRef, id });
     };
 
     data?.reviews?.forEach((review) =>{
@@ -83,7 +87,7 @@ const Reviews = () =>{
 
   const reviewHandler = (e) =>{
     e.preventDefault();
-    getProductReviews(productId);
+    getProductReviews(productIdRef.current);
   }
 
   return(
@@ -97,8 +101,7 @@ const Reviews = () =>{
                 <InputGroup>
                   <Form.Control type="text"
                   placeholder="Search"
-                  value={productId}
-                  onChange={(e) => setProductId(e.target.value)}/>
+                  onChange={(e) => productIdRef.current = e.target.value}/>
                   <section>
                     <Button type="submit" className="border-danger btn-danger">
                       <FaSearch aria-hidden="true" className="icon"/>
